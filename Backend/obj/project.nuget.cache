@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "6GxbvVBfmts=",
+  "dgSpecHash": "/5zf/lU1guQ=",
   "success": true,
-  "projectFilePath": "C:\\Users\\matej\\Desktop\\Software testing and quality\\Backend\\WebTemplate.csproj",
+  "projectFilePath": "C:\\Users\\matej\\Desktop\\RentalSystemApp\\Backend\\WebTemplate.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\matej\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\matej\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",

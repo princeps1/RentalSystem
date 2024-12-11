@@ -17,9 +17,9 @@
 
         public int CenaVozila { get; set; }
 
-        public bool Iznajmljen { get; set; }
+        public bool Iznajmljen { get; set; } = false;
 
-        public int? BrDanaIznajmljivanja { get; set; }
+        public int? BrDanaIznajmljivanja { get; set; } = 0;
 
         protected abstract decimal UzmiManjuCenuRente();
         protected abstract decimal UzmiVecuCenuRente();
@@ -27,6 +27,6 @@
 
         public List<Korisnik>? Korisnici { get; set; }
 
-       
+
     }
 }

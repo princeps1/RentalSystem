@@ -1,3 +1,7 @@
+using WebTemplate.Data;
+using WebTemplate.Repositories.Implementations;
+using WebTemplate.Repositories.Interfaces;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -25,6 +29,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<IAutomobil, AutomobilRepository>();
+builder.Services.AddScoped<IMotor, MotorRepository>();
 
 var app = builder.Build();
 

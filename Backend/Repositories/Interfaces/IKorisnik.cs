@@ -3,6 +3,7 @@ namespace WebTemplate.Repositories.Interfaces;
 public interface IKorisnik : IDisposable
 {
     public Task<ActionResult> DodajAsync(string imePrezime, string jmbg, int brVozacke, int brIznajmljivanja, Vozilo vozilo);
-
+    public Task<ActionResult> AzurirajAsync(int id,int brVozacke);
+    public Task<ActionResult> PrikaziSveAsync();
     public Task<ActionResult> ObrisiAsync(int id);
 }

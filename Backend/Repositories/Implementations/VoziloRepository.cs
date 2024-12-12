@@ -42,8 +42,7 @@ public class VoziloRepository : IVozilo
         }
     }
 
-    public async Task<ActionResult> IznajmiAsync(string imePrezime, string jmbg, int brVozacke, int brIznajmljivanja, int idVozila)
-    {
+    public async Task<ActionResult> IznajmiAsync(string imePrezime, string jmbg, int brVozacke, int brIznajmljivanja, int idVozila){
         try
         {
             var vozilo = _context.Vozila.Find(idVozila);
@@ -64,7 +63,9 @@ public class VoziloRepository : IVozilo
         {
             return new BadRequestObjectResult(e.Message);
         }
-    }
+     }
+    
+    
     public async Task<ActionResult> PrikaziSveAsync()
     {
         var vozila = await _context.Vozila

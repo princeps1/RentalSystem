@@ -14,9 +14,20 @@ public class KorisnikController : ControllerBase
         korisnikRepo = korisnik;
     }
 
+    [HttpPut("Azuriraj/{id}/{brVozacke}")]
+    public async Task<IActionResult> Azuriraj(int id,int brVozacke)
+    {
+        return await korisnikRepo.AzurirajAsync(id,brVozacke);
+    }
+
+    [HttpGet("PrikaziSve")]
+    public async Task<IActionResult> PrikaziSve()
+    {
+        return await korisnikRepo.PrikaziSveAsync();
+    }
 
     [HttpDelete("Obrisi/{id}")]
-    public async Task<ActionResult> ObrisiAsync(int id)
+    public async Task<IActionResult> Obris(int id)
     {
         return await korisnikRepo.ObrisiAsync(id);
     }

@@ -40,8 +40,51 @@ public class KorisnikRepository : IKorisnik
             return new BadRequestObjectResult(e.Message);
         }
     }
-    public async Task<ActionResult> ObrisiAsync(int id)
-    {
+    
+    public async Task<ActionResult> AzurirajAsync(int idKorisnika, int brVozacke){
+        try
+        {
+            var korisnik = _context.Korisnici.Find(idKorisnika);
+            if (korisnik == null){
+                return new NotFoundObjectResult("Nije pronadjen korisnik sa zadatim ID-em");
+            }
+            korisnik.BrVozacke = brVozacke;
+            _context.Update(korisnik);
+            await _context.SaveChangesAsync();
+            return new OkObjectResult("Korisnik je uspesno azuriran");
+        }
+        catch (Exception e)
+        {
+            return new BadRequestObjectResult(e.Message);
+        }
+    }
+
+    public async Task<ActionResult> PrikaziSveAsync(){
+        try
+        {
+            var korisnik = await _context.Korisnici
+            .Select(k => new
+            {
+                k.ImePrezime,
+                k.JMBG,
+                k.BrVozacke,
+                Vozila = k.Vozila.Select(v => new{
+                    v.ID,
+                    v.Marka,
+                    v.RegistarskiBroj,
+                    v!.BrDanaIznajmljivanja
+                }).ToList()
+            }).ToListAsync();
+            return new OkObjectResult(korisnik);
+        }
+        catch (Exception e)
+        {
+            return new BadRequestObjectResult(e.Message);
+        }
+
+    }
+
+    public async Task<ActionResult> ObrisiAsync(int id){
         try
         {
             var korisnik = await _context.Korisnici.Include(k => k.Vozila).FirstOrDefaultAsync(k => k.ID == id);
@@ -70,10 +113,7 @@ public class KorisnikRepository : IKorisnik
             return new BadRequestObjectResult($"Došlo je do greške prilikom brisanja: {e.Message}");
         }
     }
-
-
-    public void Dispose()
-    {
+    public void Dispose(){
         throw new NotImplementedException();
     }
 }

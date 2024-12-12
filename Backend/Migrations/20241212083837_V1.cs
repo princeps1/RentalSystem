@@ -32,8 +32,8 @@ namespace WebTemplate.Migrations
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Marka = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RegistarskiBroj = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Model = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RegistarskiBroj = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PredjenoKm = table.Column<int>(type: "int", nullable: false),
                     Godiste = table.Column<int>(type: "int", nullable: false),
                     CenaVozila = table.Column<int>(type: "int", nullable: false),
@@ -94,7 +94,7 @@ namespace WebTemplate.Migrations
                 columns: table => new
                 {
                     ID = table.Column<int>(type: "int", nullable: false),
-                    Tip = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Vrsta = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {

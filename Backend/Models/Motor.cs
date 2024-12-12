@@ -2,7 +2,7 @@
 {
     public class Motor : Vozilo
     {
-        public required string Tip { get; set; }
+        public required string Vrsta { get; set; }
 
         protected override decimal UzmiManjuCenuRente() => 15m;
         protected override decimal UzmiVecuCenuRente() => 10m;

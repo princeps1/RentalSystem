@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using WebTemplate.Models;
 using WebTemplate.Data;
 
 #nullable disable
@@ -13,7 +12,7 @@ using WebTemplate.Data;
 namespace WebTemplate.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20241113193736_V1")]
+    [Migration("20241212083837_V1")]
     partial class V1
     {
         /// <inheritdoc />
@@ -129,7 +128,7 @@ namespace WebTemplate.Migrations
                 {
                     b.HasBaseType("WebTemplate.Models.Vozilo");
 
-                    b.Property<string>("Tip")
+                    b.Property<string>("Vrsta")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

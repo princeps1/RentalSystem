@@ -12,19 +12,54 @@ public class KorisnikRepository : IKorisnik
         _context = context;
     }
 
+
+    public async Task<ActionResult> DodajAsync(string imePrezime, string jmbg, int brVozacke, int brIznajmljivanja, Vozilo vozilo)
+    {
+        try
+        {
+            var korisnikPostoji = await _context.Korisnici.AnyAsync(k => k.BrVozacke == brVozacke || k.JMBG == jmbg);
+            if (korisnikPostoji)
+            {
+                return new BadRequestObjectResult("Korisnik vec postoji");
+            }
+
+
+            var korisnik = new Korisnik
+            {
+                ImePrezime = imePrezime,
+                JMBG = jmbg,
+                BrVozacke = brVozacke,
+                Vozila = new List<Vozilo> { vozilo }
+            };
+            await _context.Korisnici.AddAsync(korisnik);
+            await _context.SaveChangesAsync();
+            return new OkObjectResult($"Korisnik \n{korisnik.ImePrezime} je dodat\n");
+        }
+        catch (Exception e)
+        {
+            return new BadRequestObjectResult(e.Message);
+        }
+    }
     public async Task<ActionResult> ObrisiAsync(int id)
     {
         try
         {
-            // Pronalazak entiteta Korisnik po id-u
-            var korisnik = await _context.Korisnici.FindAsync(id);
+            var korisnik = await _context.Korisnici.Include(k => k.Vozila).FirstOrDefaultAsync(k => k.ID == id);
 
             if (korisnik == null)
             {
                 return new NotFoundObjectResult("Korisnik sa zadatim ID-em nije pronađen.");
             }
 
-            // Brisanje entiteta Korisnik
+            if (korisnik.Vozila != null && korisnik.Vozila.Count > 0)
+            {
+                foreach (var vozilo in korisnik.Vozila)
+                {
+                    vozilo.Iznajmljen = false;
+                    vozilo.BrDanaIznajmljivanja = 0;
+                }
+            }
+
             _context.Korisnici.Remove(korisnik);
             await _context.SaveChangesAsync();
 
@@ -35,6 +70,7 @@ public class KorisnikRepository : IKorisnik
             return new BadRequestObjectResult($"Došlo je do greške prilikom brisanja: {e.Message}");
         }
     }
+
 
     public void Dispose()
     {

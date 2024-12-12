@@ -15,7 +15,7 @@ public class KorisnikController : ControllerBase
     }
 
 
-    [HttpDelete("ObrisiKorisnika/{id}")]
+    [HttpDelete("Obrisi/{id}")]
     public async Task<ActionResult> ObrisiAsync(int id)
     {
         return await korisnikRepo.ObrisiAsync(id);

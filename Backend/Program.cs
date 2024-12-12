@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<Context>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("TIKSCS"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("TIKScs"));
 });
 
 builder.Services.AddCors(options =>
@@ -24,14 +24,21 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Services.AddControllers();
+// Dodao JsonConverter u servisnu kolekciju
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new VoziloConverter());
+    });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<IAutomobil, AutomobilRepository>();
-builder.Services.AddScoped<IMotor, MotorRepository>();
+
+builder.Services.AddScoped<IVozilo, VoziloRepository>();
+builder.Services.AddScoped<IKorisnik, KorisnikRepository>();
+
 
 var app = builder.Build();
 
@@ -51,3 +58,10 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+
+
+
+
+
+

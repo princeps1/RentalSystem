@@ -125,7 +125,7 @@ namespace WebTemplate.Migrations
                 {
                     b.HasBaseType("WebTemplate.Models.Vozilo");
 
-                    b.Property<string>("Tip")
+                    b.Property<string>("Vrsta")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

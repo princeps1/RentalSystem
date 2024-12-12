@@ -1,4 +1,7 @@
-﻿namespace WebTemplate.Models
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
+
+namespace WebTemplate.Models
 {
     public abstract class Vozilo
     {
@@ -6,10 +9,9 @@
         public int ID { get; set; }
 
         public required string Marka { get; set; }
+        public required string Model { get; set; }
 
         public required string RegistarskiBroj { get; set; }
-
-        public required string Model { get; set; }
 
         public int PredjenoKm { get; set; }
 
@@ -26,7 +28,5 @@
         protected abstract decimal UzmiProcenatOsiguranja();
 
         public List<Korisnik>? Korisnici { get; set; }
-
-
     }
 }

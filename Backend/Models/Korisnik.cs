@@ -12,5 +12,10 @@ public class Korisnik
     public int BrVozacke { get; set; }
 
     public List<Vozilo>? Vozila { get; set; }
+
+    public Korisnik()
+    {
+        Vozila = new List<Vozilo>();
+    }
 }
 

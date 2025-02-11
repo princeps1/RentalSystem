@@ -27,6 +27,6 @@ namespace WebTemplate.Models
         protected abstract decimal UzmiVecuCenuRente();
         protected abstract decimal UzmiProcenatOsiguranja();
 
-        public List<Korisnik>? Korisnici { get; set; }
+        public Korisnik? Korisnik { get; set; }
     }
 }

@@ -1,18 +1,14 @@
-using Microsoft.AspNetCore.Http.HttpResults;
-using WebTemplate.Data;
-using WebTemplate.Repositories.Interfaces;
+
 
 namespace WebTemplate.Repositories.Implementations;
 
-public class VoziloRepository : IVozilo
+public class VoziloRepository : IVoziloRepository
 {
     private readonly Context _context;
-    private readonly IKorisnik korisnikRepo;
 
-    public VoziloRepository(Context context, IKorisnik korisnik)
+    public VoziloRepository(Context context, IKorisnikRepository korisnik)
     {
         _context = context;
-        korisnikRepo = korisnik;
     }
 
 
@@ -42,28 +38,27 @@ public class VoziloRepository : IVozilo
         }
     }
 
-    public async Task<ActionResult> IznajmiAsync(string imePrezime, string jmbg, int brVozacke, int brIznajmljivanja, int idVozila){
-        try
-        {
-            var vozilo = _context.Vozila.Find(idVozila);
-            if (vozilo == null)
-                return new NotFoundObjectResult("Vozilo nije pronadjeno");
-            if (vozilo.BrDanaIznajmljivanja > 0 && vozilo.Iznajmljen)
-            {
-                return new BadRequestObjectResult("Vozilo je vec iznajmljeno");
-            }
-            await korisnikRepo.DodajAsync(imePrezime, jmbg, brVozacke, brIznajmljivanja, vozilo);
-            vozilo!.BrDanaIznajmljivanja = brIznajmljivanja;
-            vozilo.Iznajmljen = true;
-            await _context.SaveChangesAsync();
+    //public async Task<ActionResult> IznajmiAsync(int brDana, int idVozila){
+    //    try
+    //    {
+    //        var vozilo = _context.Vozila.Find(idVozila);
+    //        if (vozilo == null)
+    //            return new NotFoundObjectResult("Vozilo nije pronadjeno");
+    //        if (vozilo.BrDanaIznajmljivanja > 0 && vozilo.Iznajmljen)
+    //        {
+    //            return new BadRequestObjectResult("Vozilo je vec iznajmljeno");
+    //        }
+    //        vozilo!.BrDanaIznajmljivanja = brDana;
+    //        vozilo.Iznajmljen = true;
+    //        await _context.SaveChangesAsync();
 
-            return new OkObjectResult($"Vozilo {vozilo.Marka} je uspesno iznajmljeno");
-        }
-        catch (Exception e)
-        {
-            return new BadRequestObjectResult(e.Message);
-        }
-     }
+    //        return new OkObjectResult($"Vozilo {vozilo.Marka} je uspesno iznajmljeno");
+    //    }
+    //    catch (Exception e)
+    //    {
+    //        return new BadRequestObjectResult(e.Message);
+    //    }
+    // }
     
     
     public async Task<ActionResult> PrikaziSveAsync()
@@ -85,8 +80,19 @@ public class VoziloRepository : IVozilo
 
         return new OkObjectResult(vozila); // Vraća selektovana svojstva sa statusom 200 OK
     }
+    public async Task<Vozilo?> PrikaziVoziloAsync(int id)
+    {
+        try
+        {
+            return await _context.Vozila.FindAsync(id);
+        }
+        catch
+        {
+            return null;
+        }
+    }
 
-    public async Task<ActionResult> ObrisiAsync(int id)
+        public async Task<ActionResult> ObrisiAsync(int id)
     {
         try
         {
@@ -109,5 +115,5 @@ public class VoziloRepository : IVozilo
         throw new NotImplementedException();
     }
 
-
+   
 }

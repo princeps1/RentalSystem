@@ -1,6 +1,5 @@
-using WebTemplate.Data;
-using WebTemplate.Repositories.Implementations;
-using WebTemplate.Repositories.Interfaces;
+
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,8 +35,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
-builder.Services.AddScoped<IVozilo, VoziloRepository>();
-builder.Services.AddScoped<IKorisnik, KorisnikRepository>();
+builder.Services.AddScoped<IVoziloRepository, VoziloRepository>();
+builder.Services.AddScoped<IKorisnikRepository, KorisnikRepository>();
+builder.Services.AddScoped<IIznajmljivanjeService, IznajmljivanjeService>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
 var app = builder.Build();

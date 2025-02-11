@@ -1,9 +1,8 @@
-using WebTemplate.Data;
-using WebTemplate.Repositories.Interfaces;
+
 
 namespace WebTemplate.Repositories.Implementations;
 
-public class KorisnikRepository : IKorisnik
+public class KorisnikRepository : IKorisnikRepository
 {
     private readonly Context _context;
 
@@ -13,7 +12,7 @@ public class KorisnikRepository : IKorisnik
     }
 
 
-    public async Task<ActionResult> DodajAsync(string imePrezime, string jmbg, int brVozacke, int brIznajmljivanja, Vozilo vozilo)
+    public async Task<ActionResult> DodajAsync(string imePrezime, string jmbg, int brVozacke)
     {
         try
         {
@@ -28,12 +27,11 @@ public class KorisnikRepository : IKorisnik
             {
                 ImePrezime = imePrezime,
                 JMBG = jmbg,
-                BrVozacke = brVozacke,
-                Vozila = new List<Vozilo> { vozilo }
+                BrVozacke = brVozacke
             };
             await _context.Korisnici.AddAsync(korisnik);
             await _context.SaveChangesAsync();
-            return new OkObjectResult($"Korisnik \n{korisnik.ImePrezime} je dodat\n");
+            return new OkObjectResult($"Korisnik {korisnik.ImePrezime} je dodat\n");
         }
         catch (Exception e)
         {
@@ -41,7 +39,7 @@ public class KorisnikRepository : IKorisnik
         }
     }
     
-    public async Task<ActionResult> AzurirajAsync(int idKorisnika, int brVozacke){
+    public async Task<ActionResult> AzurirajVozackuAsync(int idKorisnika, int brVozacke){
         try
         {
             var korisnik = _context.Korisnici.Find(idKorisnika);
@@ -68,7 +66,7 @@ public class KorisnikRepository : IKorisnik
                 k.ImePrezime,
                 k.JMBG,
                 k.BrVozacke,
-                Vozila = k.Vozila.Select(v => new{
+                Vozila = k.Vozila!.Select(v => new{
                     v.ID,
                     v.Marka,
                     v.RegistarskiBroj,
@@ -84,6 +82,21 @@ public class KorisnikRepository : IKorisnik
 
     }
 
+    public async Task<Korisnik?> PrikaziKorisnikaAsync(int id)
+    {
+        try
+        {
+            return await _context.Korisnici.FindAsync(id);
+        }
+        catch
+        {
+            return null; 
+        }
+    }
+
+
+
+    //Proveriti da li logika za brisanje iznajmljenih vozila radi - NIJE DOBRA
     public async Task<ActionResult> ObrisiAsync(int id){
         try
         {

@@ -12,108 +12,64 @@ public class VoziloRepository : IVoziloRepository
     }
 
 
-    public async Task<ActionResult> DodajAsync(Vozilo vozilo)
+    public async Task<Vozilo> DodajAsync(Vozilo vozilo)
     {
-        try
+        if (vozilo is Motor motor)
         {
-            if (vozilo is Motor motor)
-            {
-                _context.Add(motor);
-            }
-            else if (vozilo is Automobil automobil)
-            {
-                _context.Add(automobil);
-            }
-            else
-            {
-                return new BadRequestObjectResult("Nepoznat tip vozila.");
-            }
+            _context.Add(motor);
+        }
+        else if (vozilo is Automobil automobil)
+        {
+            _context.Add(automobil);
+        }
 
-            await _context.SaveChangesAsync();
-            return new OkObjectResult("Vozilo uspešno dodato.");
-        }
-        catch (Exception e)
-        {
-            return new BadRequestObjectResult(e.Message);
-        }
+        await _context.SaveChangesAsync();
+        return vozilo;
     }
-
-    //public async Task<ActionResult> IznajmiAsync(int brDana, int idVozila){
-    //    try
-    //    {
-    //        var vozilo = _context.Vozila.Find(idVozila);
-    //        if (vozilo == null)
-    //            return new NotFoundObjectResult("Vozilo nije pronadjeno");
-    //        if (vozilo.BrDanaIznajmljivanja > 0 && vozilo.Iznajmljen)
-    //        {
-    //            return new BadRequestObjectResult("Vozilo je vec iznajmljeno");
-    //        }
-    //        vozilo!.BrDanaIznajmljivanja = brDana;
-    //        vozilo.Iznajmljen = true;
-    //        await _context.SaveChangesAsync();
-
-    //        return new OkObjectResult($"Vozilo {vozilo.Marka} je uspesno iznajmljeno");
-    //    }
-    //    catch (Exception e)
-    //    {
-    //        return new BadRequestObjectResult(e.Message);
-    //    }
-    // }
     
-    
-    public async Task<ActionResult> PrikaziSveAsync()
+    public async Task<List<Vozilo>> PrikaziSveAsync()//Ispravicemo ovo sa DTO
     {
-        var vozila = await _context.Vozila
-            .Select(v => new
-            {
-                v.ID,
-                v.Marka,
-                v.Model,
-                BrSedista = v is Automobil ? ((Automobil)v).BrSedista : (int?)null
-            })
-            .ToListAsync(); // Asinhrono preuzimanje izabranih svojstava
+        var vozila = await _context.Vozila.ToListAsync();
+            //.Select(v => new
+            //{
+            //    v.ID,
+            //    v.Marka,
+            //    v.Model,
+            //    BrSedista = v is Automobil ? ((Automobil)v).BrSedista : (int?)null
+            //})
+            //.ToListAsync(); // Asinhrono preuzimanje izabranih svojstava
 
-        if (vozila == null || vozila.Count == 0)
-        {
-            return new NotFoundObjectResult("Nema vozila u bazi podataka.");
-        }
-
-        return new OkObjectResult(vozila); // Vraća selektovana svojstva sa statusom 200 OK
-    }
-    public async Task<Vozilo?> PrikaziVoziloAsync(int id)
-    {
-        try
-        {
-            return await _context.Vozila.FindAsync(id);
-        }
-        catch
-        {
-            return null;
-        }
+        return vozila; 
     }
 
-        public async Task<ActionResult> ObrisiAsync(int id)
+    public async Task<Vozilo> PrikaziVoziloAsync(int id)
     {
-        try
-        {
-            var vozilo = await _context.Vozila.FindAsync(id);
-            if (vozilo == null)
-            {
-                return new NotFoundObjectResult("Vozilo sa zadatimID-em nije pronadjeno");
-            }
-            _context.Vozila.Remove(vozilo);
-            await _context.SaveChangesAsync();
-            return new OkObjectResult("Uspesno obrisano vozilo");
-        }
-        catch (Exception e)
-        {
-            return new BadRequestObjectResult(e.Message);
-        }
+        return await _context.Vozila.FindAsync(id);
     }
-    public void Dispose()
+
+    public async Task<IActionResult> ObrisiAsync(int id)
     {
-        throw new NotImplementedException();
+        var vozilo = await _context.Vozila.FindAsync(id);
+        if (vozilo == null)
+        {
+            return new NotFoundObjectResult("Vozilo sa zadatim ID-em nije pronadjeno");
+        }
+        _context.Vozila.Remove(vozilo);
+        await _context.SaveChangesAsync();
+        return new OkObjectResult("Uspesno obrisano vozilo");
+    }
+
+    public async Task<bool> DaLiPostojiAsync(string? regBroj = null)
+    {
+        if(regBroj != null)
+        {
+            return await _context.Vozila.AnyAsync(c => c.RegistarskiBroj == regBroj);
+        }
+        return await _context.Vozila.AnyAsync();
     }
 
    
+
+
+
 }

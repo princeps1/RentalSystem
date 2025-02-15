@@ -1,13 +1,13 @@
 namespace WebTemplate.Repositories.Interfaces;
 
-public interface IVoziloRepository : IDisposable
+public interface IVoziloRepository 
 {
 
-    public Task<ActionResult> DodajAsync(Vozilo vozilo);
-    //public Task<ActionResult> IznajmiAsync(int brDana, int idVozila);
-    public Task<ActionResult> PrikaziSveAsync();
+    public Task<Vozilo> DodajAsync(Vozilo vozilo);
+    public Task<List<Vozilo>> PrikaziSveAsync();
     public Task<Vozilo?> PrikaziVoziloAsync(int id);
 
-    public Task<ActionResult> ObrisiAsync(int id);
+    public Task<IActionResult> ObrisiAsync(int id);
 
+    public Task<bool> DaLiPostojiAsync(string? regBroj = null);
 }

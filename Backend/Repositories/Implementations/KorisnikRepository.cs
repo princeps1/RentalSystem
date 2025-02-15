@@ -126,7 +126,5 @@ public class KorisnikRepository : IKorisnikRepository
             return new BadRequestObjectResult($"Došlo je do greške prilikom brisanja: {e.Message}");
         }
     }
-    public void Dispose(){
-        throw new NotImplementedException();
-    }
+    
 }

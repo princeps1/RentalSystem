@@ -1,6 +1,6 @@
 namespace WebTemplate.Repositories.Interfaces;
 
-public interface IKorisnikRepository : IDisposable
+public interface IKorisnikRepository
 {
     public Task<ActionResult> DodajAsync(string imePrezime, string jmbg, int brVozacke);
     public Task<ActionResult> AzurirajVozackuAsync(int id,int brVozacke);

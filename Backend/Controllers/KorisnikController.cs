@@ -1,3 +1,4 @@
+using WebTemplate.Models;
 
 namespace WebTemplate.KorisnikController;
 
@@ -14,27 +15,103 @@ public class KorisnikController : ControllerBase
     }
 
     [HttpPost("Dodaj")]
-    public async Task<IActionResult> Dodaj(string imePrezime, string jmbg, int brVozacke)
+    public async Task<IActionResult> Dodaj([FromQuery , Required]string imePrezime, 
+                                           [FromQuery, Required , StringLength(13)] string jmbg, 
+                                           [FromQuery, Required] int brVozacke)
     {
-        return await _korisnikRepo.DodajAsync(imePrezime, jmbg, brVozacke);
+        try
+        {
+            if (await _korisnikRepo.DaLiPostoji(jmbg, brVozacke))
+            {
+                return Conflict("Korisnik sa tim JMBG-om i brojem vozacke dozvole vec postoji.");
+            }
+            var korisnik = await _korisnikRepo.DodajAsync(imePrezime, jmbg, brVozacke);
+            return Ok($"Dodat je korisnik {imePrezime}");
+
+        }
+        catch (Exception)
+        {
+            return BadRequest();
+        }
     }
 
-    [HttpPut("Azuriraj/{id}/{brVozacke}")]
-    public async Task<IActionResult> Azuriraj(int id,int brVozacke)
+    [HttpPut("Azuriraj")]
+    public async Task<IActionResult> AzurirajVozacku([FromQuery, Required , StringLength(13)] string jmbg,
+                                                     [FromQuery, Required] int noviBrVozacke)
     {
-        return await _korisnikRepo.AzurirajVozackuAsync(id,brVozacke);
+        try
+        {
+            if (!await _korisnikRepo.DaLiPostoji(jmbg))
+            {
+                return NoContent();
+            }
+            var korisnik = await _korisnikRepo.AzurirajVozackuAsync(jmbg, noviBrVozacke);
+            return Ok("Korisnik je azuriran!");
+        }
+        catch (Exception)
+        {
+            return BadRequest();
+        }
     }
 
     [HttpGet("PrikaziSve")]
     public async Task<IActionResult> PrikaziSve()
     {
-        return await _korisnikRepo.PrikaziSveAsync();
+        try
+        {
+            if (!await _korisnikRepo.DaLiPostoji())
+            {
+                return NoContent();
+            }
+            var korisnici = await _korisnikRepo.PrikaziSveAsync();
+            return Ok(korisnici);
+        }
+        catch (Exception)
+        {
+
+            return BadRequest();
+        }
     }
 
-    [HttpDelete("Obrisi/{id}")]
-    public async Task<IActionResult> Obris(int id)
+    [HttpGet("PrikaziKorisnika")]
+    public async Task<IActionResult> PrikaziKorisnika([FromQuery, Required, StringLength(13)] string jmbg)
     {
-        return await _korisnikRepo.ObrisiAsync(id);
+        try
+        {
+            if (!await _korisnikRepo.DaLiPostoji(jmbg))
+            {
+                return NoContent();
+            }
+            var korisnik = await _korisnikRepo.PrikaziKorisnikaAsync(jmbg);
+            return Ok(korisnik);
+        }
+        catch (Exception)
+        {
+
+            return BadRequest();
+        }
+    }
+
+    [HttpDelete("Obrisi")]
+    public async Task<IActionResult> Obris([FromQuery, Required, StringLength(13)] string jmbg)
+    {
+        try
+        {
+            if (!await _korisnikRepo.DaLiPostoji(jmbg))
+            {
+                return NoContent();
+            }
+            if (await _korisnikRepo.KorisnikJeIznajmioVozilo(jmbg))
+            {
+                return BadRequest("Korisnik je iznajmio vozilo i ne moze biti obrisan!");
+            }
+            await _korisnikRepo.ObrisiAsync(jmbg);
+            return Ok("Korisnik je obrisan!");
+        }
+        catch (Exception)
+        {
+            return BadRequest();
+        }
     }
 
 

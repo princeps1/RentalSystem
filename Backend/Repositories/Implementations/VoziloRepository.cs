@@ -42,7 +42,7 @@ public class VoziloRepository : IVoziloRepository
         return vozila; 
     }
 
-    public async Task<Vozilo> PrikaziVoziloAsync(int id)
+    public async Task<Vozilo?> PrikaziVoziloAsync(int id)
     {
         return await _context.Vozila.FindAsync(id);
     }

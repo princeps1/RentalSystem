@@ -22,6 +22,8 @@ public class Context : DbContext
         modelBuilder.Entity<Vozilo>().ToTable("Vozila"); // Tabela za zajednicka svojstva
         modelBuilder.Entity<Automobil>().ToTable("Automobili"); // Tabela specificna za Automobil
         modelBuilder.Entity<Motor>().ToTable("Motori"); // Tabela specificna za Motor
+        modelBuilder.Entity<Korisnik>().ToTable("Korisnici"); // Tabela specificna za Korisnik
+
     }
 
 }

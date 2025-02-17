@@ -35,7 +35,7 @@ public class VoziloController : ControllerBase
         catch (Exception)
         {
 
-            return BadRequest("Problem sa tipom ili bazom");
+            return BadRequest();
         }
     }
 
@@ -57,7 +57,7 @@ public class VoziloController : ControllerBase
         catch (Exception)
         {
 
-            return BadRequest("Problem sa bazom");
+            return BadRequest();
         }
     }
 
@@ -79,7 +79,7 @@ public class VoziloController : ControllerBase
         }
         catch (Exception)
         {
-            return BadRequest("Problem sa bazom");
+            return BadRequest();
         }
     }
 
@@ -96,7 +96,7 @@ public class VoziloController : ControllerBase
         }
         catch (Exception)
         {
-            return BadRequest("Problem sa bazom");
+            return BadRequest();
         }
     }
 

@@ -18,11 +18,11 @@ public class IznajmljivanjeService : IIznajmljivanjeService
         _korisnikRepo = korisnikRepo;
         _unitOfWork = unitOfWork;
     }
-    public async Task<ActionResult> IznajmiVoziloAsync(int brDana, int idVozila, int idKorisnika)
+    public async Task<ActionResult> IznajmiVoziloAsync(int brDana, int idVozila, string jmbg)
     {
         try
         {
-            var korisnik = await _korisnikRepo.PrikaziKorisnikaAsync(idKorisnika);
+            var korisnik = await _korisnikRepo.PrikaziKorisnikaAsync(jmbg);
             if (korisnik == null)
             {
                 return new NotFoundObjectResult("Nije pronadjen korisnik");

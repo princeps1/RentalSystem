@@ -2,5 +2,5 @@
 
 public interface IIznajmljivanjeService
 {
-    public Task<ActionResult> IznajmiVoziloAsync(int brDana, int idVozila,int idKorisnika);
+    public Task<ActionResult> IznajmiVoziloAsync(int brDana, int idVozila,string jmbg);
 }

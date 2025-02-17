@@ -11,9 +11,9 @@ public class IznajmljivanjeController : ControllerBase
         _iznajmljivanjeService = iznajmljivanjeService;
     }
     [HttpGet("IznajmiVozilo")]
-    public async Task<IActionResult> IznajmiVoziloAsync(int brDana,int idVozila,int idKorisnika)
+    public async Task<IActionResult> IznajmiVoziloAsync(int brDana,int idVozila,string jmbg)
     {
-        return await _iznajmljivanjeService.IznajmiVoziloAsync(brDana, idVozila, idKorisnika);
+        return await _iznajmljivanjeService.IznajmiVoziloAsync(brDana, idVozila, jmbg);
     }
 
 }

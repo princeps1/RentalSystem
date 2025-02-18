@@ -1,44 +1,45 @@
+using AutoMapper;
+using WebTemplate.Models;
+
 namespace WebTemplate.Repositories.Implementations;
 
 public class VoziloRepository : IVoziloRepository
 {
     private readonly Context _context;
+    private readonly IMapper _mapper;
 
-    public VoziloRepository(Context context, IKorisnikRepository korisnik)
+    public VoziloRepository(Context context, IKorisnikRepository korisnik, IMapper mapper)
     {
         _context = context;
+        _mapper = mapper;
     }
 
 
-    public async Task<Vozilo> DodajAsync(Vozilo vozilo)
+    public async Task DodajAsync(VoziloDodavanjeDTO voziloDTO)
     {
-        if (vozilo is Motor motor)
+        if (voziloDTO is MotorDodavanjeDTO motorDTO)
         {
+            var motor = _mapper.Map<Motor>(motorDTO);
             _context.Add(motor);
         }
-        else if (vozilo is Automobil automobil)
+        else if (voziloDTO is AutomobilDodavanjeDTO automobilDTO)
         {
+            var automobil = _mapper.Map<Automobil>(automobilDTO);
             _context.Add(automobil);
         }
-
-        await _context.SaveChangesAsync();
-        return vozilo;
+        await _context.SaveChangesAsync(); 
     }
-    
-    public async Task<List<Vozilo>> PrikaziSveAsync()//Ispravicemo ovo sa DTO
+
+    public async Task<List<VoziloDTO>> PrikaziSveAsync()
     {
-        var vozila = await _context.Vozila.ToListAsync();
-            //.Select(v => new
-            //{
-            //    v.ID,
-            //    v.Marka,
-            //    v.Model,
-            //    BrSedista = v is Automobil ? ((Automobil)v).BrSedista : (int?)null
-            //})
-            //.ToListAsync(); // Asinhrono preuzimanje izabranih svojstava
+        var vozila = await _context.Vozila
+            .Include(v => v.Korisnik) 
+            .ToListAsync();
 
-        return vozila; 
+        List<VoziloDTO> vozilaDTO = _mapper.Map<List<VoziloDTO>>(vozila);
+        return vozilaDTO;
     }
+
 
     public async Task<Vozilo?> PrikaziVoziloAsync(string regBroj)
     {
@@ -51,6 +52,9 @@ public class VoziloRepository : IVoziloRepository
         _context.Vozila.Remove(vozilo!);
         await _context.SaveChangesAsync();
     }
+
+
+
 
 
     //HELPERI

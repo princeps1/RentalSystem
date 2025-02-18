@@ -1,12 +1,16 @@
+using AutoMapper;
+
 namespace WebTemplate.Repositories.Implementations;
 
 public class KorisnikRepository : IKorisnikRepository
 {
     private readonly Context _context;
+    private readonly IMapper _mapper;
 
-    public KorisnikRepository(Context context)
+    public KorisnikRepository(Context context, IMapper mapper)
     {
         _context = context;
+        _mapper = mapper;
     }
 
 
@@ -34,26 +38,11 @@ public class KorisnikRepository : IKorisnikRepository
         return korisnik;
     }
 
-    public async Task<List<Korisnik>> PrikaziSveAsync()//PREPRAVI KAD DODAS DTO
+    public async Task<List<KorisnikDTO>> PrikaziSveAsync()
     {
-
-        var korisnici = await _context.Korisnici.ToListAsync();
-        //.Select(k => new
-        //{
-        //    k.ImePrezime,
-        //    k.JMBG,
-        //    k.BrVozacke,
-        //    Vozila = k.Vozila!.Select(v => new
-        //    {
-        //        v.ID,
-        //        v.Marka,
-        //        v.RegistarskiBroj,
-        //        v!.BrDanaIznajmljivanja
-        //    }).ToList()
-        //}).ToListAsync();
-        return korisnici;
-
-
+        var korisnici = await _context.Korisnici.Include(k => k.Vozila).ToListAsync();
+        List<KorisnikDTO> korisniciDTO = _mapper.Map<List<KorisnikDTO>>(korisnici);
+        return korisniciDTO;
     }
 
     public async Task<Korisnik?> PrikaziKorisnikaAsync(string jmbg)
@@ -70,6 +59,12 @@ public class KorisnikRepository : IKorisnikRepository
         await _context.SaveChangesAsync();
 
     }
+
+
+
+
+
+
 
     //HELPERI
     public async Task<bool> DaLiPostojiAsync(string? jmbg = null, string? brVozacke = null)

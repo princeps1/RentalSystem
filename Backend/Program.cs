@@ -1,5 +1,4 @@
-
-
+using WebTemplate.Mappers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,12 +21,14 @@ builder.Services.AddCors(options =>
                            "https://127.0.0.1:5500");
     });
 });
+builder.Services.AddAutoMapper(typeof(KorisnikMapper));
+builder.Services.AddAutoMapper(typeof(VoziloMapper));
 
 // Dodao JsonConverter u servisnu kolekciju
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
-        options.JsonSerializerOptions.Converters.Add(new VoziloConverter());
+        options.JsonSerializerOptions.Converters.Add(new VoziloDodavanjeDTOConverter());
     });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

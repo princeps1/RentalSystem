@@ -15,27 +15,27 @@ public class VoziloController : ControllerBase
     [SwaggerResponse(StatusCodes.Status409Conflict, "Vozilo vec postoji.")]
     [SwaggerResponse(StatusCodes.Status204NoContent, "Nisi poslao nikakvo vozilo.")]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Problem sa tipom ili bazom.")]
-    public async Task<IActionResult> Dodaj([FromBody] Vozilo vozilo)
+    public async Task<IActionResult> Dodaj([FromBody] VoziloDodavanjeDTO voziloDTO)
     {
         try
         {
-            if (vozilo == null)
+            if (voziloDTO == null)
             {
                 return NoContent();
             }
 
-            if (await _voziloRepo.DaLiPostojiAsync(vozilo.RegistarskiBroj))
+            if (await _voziloRepo.DaLiPostojiAsync(voziloDTO.RegistarskiBroj))
             {
                 return Conflict("Vozilo sa tim registarskim brojem vec postoji.");
             }
 
-            var result = await _voziloRepo.DodajAsync(vozilo);
-            return Ok($"Vozilo uspesno dodatno sa ID-em {result.ID}");
+            await _voziloRepo.DodajAsync(voziloDTO);
+            return Ok("Vozilo uspesno dodatno");
         }
-        catch (Exception)
+        catch (Exception e)
         {
 
-            return BadRequest();
+            return BadRequest(e.Message);
         }
     }
 
@@ -54,10 +54,10 @@ public class VoziloController : ControllerBase
             var result =  await _voziloRepo.PrikaziSveAsync();
             return Ok(result);
         }
-        catch (Exception)
+        catch (Exception e)
         {
 
-            return BadRequest();
+            return BadRequest(e.Message);
         }
     }
 

@@ -78,9 +78,9 @@ public class KorisnikController : ControllerBase
             var korisnici = await _korisnikRepo.PrikaziSveAsync();
             return Ok(korisnici);
         }
-        catch (Exception)
+        catch (Exception e)
         {
-            return BadRequest("Greska");
+            return BadRequest(e.Message);
         }
     }
 

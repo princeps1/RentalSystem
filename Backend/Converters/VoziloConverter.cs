@@ -1,62 +1,56 @@
-using System;
+﻿using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-public class VoziloConverter : JsonConverter<Vozilo>
+public class VoziloDodavanjeDTOConverter : JsonConverter<VoziloDodavanjeDTO>
 {
-
-    public override Vozilo Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override VoziloDodavanjeDTO Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        // Deserialize the root element into a JsonElement
-        var root = JsonDocument.ParseValue(ref reader).RootElement;
-
-        // Check the "Tip" property to determine the type
-        if (root.TryGetProperty("tip", out var tipProperty))
+        using (var document = JsonDocument.ParseValue(ref reader))
         {
-            var tip = tipProperty.GetString();
+            var root = document.RootElement;
 
-            if (tip == "Motor")
+            if (root.TryGetProperty("tip", out var tipProperty))
             {
-                // Deserialize as Motor
-                var motor = JsonSerializer.Deserialize<Motor>(root.GetRawText(), options);
-                if (motor == null)
+                var tip = tipProperty.GetString();
+
+                if (tip!.Equals("Motor", StringComparison.OrdinalIgnoreCase))
                 {
-                    throw new InvalidOperationException("Failed to deserialize Motor.");
+                    var motorDTO = JsonSerializer.Deserialize<MotorDodavanjeDTO>(root.GetRawText(), options);
+                    if (motorDTO == null)
+                    {
+                        throw new InvalidOperationException("Neuspjela deserializacija za MotorDodavanjeDTO.");
+                    }
+                    return motorDTO;
                 }
-                return motor;
-            }
-            else if (tip == "Automobil")
-            {
-                // Deserialize as Automobil
-                var automobil = JsonSerializer.Deserialize<Automobil>(root.GetRawText(), options);
-                if (automobil == null)
+                else if (tip.Equals("Automobil", StringComparison.OrdinalIgnoreCase))
                 {
-                    throw new InvalidOperationException("Failed to deserialize Automobil.");
+                    var automobilDTO = JsonSerializer.Deserialize<AutomobilDodavanjeDTO>(root.GetRawText(), options);
+                    if (automobilDTO == null)
+                    {
+                        throw new InvalidOperationException("Neuspjela deserializacija za AutomobilDodavanjeDTO.");
+                    }
+                    return automobilDTO;
                 }
-                return automobil;
             }
+
+            throw new InvalidOperationException("Nepoznati tip ili nedostaje svojstvo 'tip'.");
         }
-
-        // If Tip is not found or doesn't match, throw an exception or return a default value
-        throw new InvalidOperationException("Unknown vehicle type or missing 'Tip' property.");
     }
 
-    public override void Write(Utf8JsonWriter writer, Vozilo value, JsonSerializerOptions options)
+    public override void Write(Utf8JsonWriter writer, VoziloDodavanjeDTO value, JsonSerializerOptions options)
     {
-        // Serialize the object based on its type (Motor or Automobil)
-        if (value is Motor motor)
+        if (value is MotorDodavanjeDTO motorDTO)
         {
-            JsonSerializer.Serialize(writer, motor, options);
+            JsonSerializer.Serialize(writer, motorDTO, options);
         }
-        else if (value is Automobil automobil)
+        else if (value is AutomobilDodavanjeDTO automobilDTO)
         {
-            JsonSerializer.Serialize(writer, automobil, options);
+            JsonSerializer.Serialize(writer, automobilDTO, options);
         }
         else
         {
-            // Handle unexpected types
-            throw new InvalidOperationException("Unknown vehicle type.");
+            throw new InvalidOperationException("Nepoznati tip VoziloDodavanjeDTO.");
         }
     }
-
 }

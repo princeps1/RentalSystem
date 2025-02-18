@@ -5,9 +5,11 @@ public interface IVoziloRepository
 
     public Task<Vozilo> DodajAsync(Vozilo vozilo);
     public Task<List<Vozilo>> PrikaziSveAsync();
-    public Task<Vozilo?> PrikaziVoziloAsync(int id);
+    public Task<Vozilo?> PrikaziVoziloAsync(string regBroj);
+    public Task ObrisiAsync(string regBroj);
 
-    public Task<IActionResult> ObrisiAsync(int id);
-
+    //HELPERI
     public Task<bool> DaLiPostojiAsync(string? regBroj = null);
+    public Task<bool> DaLiJeIznajmljeno(string regBr);
+
 }

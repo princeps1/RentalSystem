@@ -9,7 +9,7 @@ public class Korisnik
 
     public required string JMBG { get; set; }
 
-    public int BrVozacke { get; set; }
+    public required string BrVozacke { get; set; }
 
     public List<Vozilo>? Vozila { get; set; }
 

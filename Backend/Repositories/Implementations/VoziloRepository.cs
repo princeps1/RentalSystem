@@ -1,5 +1,3 @@
-
-
 namespace WebTemplate.Repositories.Implementations;
 
 public class VoziloRepository : IVoziloRepository
@@ -42,23 +40,20 @@ public class VoziloRepository : IVoziloRepository
         return vozila; 
     }
 
-    public async Task<Vozilo?> PrikaziVoziloAsync(int id)
+    public async Task<Vozilo?> PrikaziVoziloAsync(string regBroj)
     {
-        return await _context.Vozila.FindAsync(id);
+        return await _context.Vozila.FirstOrDefaultAsync(k => k.RegistarskiBroj == regBroj);
     }
 
-    public async Task<IActionResult> ObrisiAsync(int id)
+    public async Task ObrisiAsync(string regBroj)
     {
-        var vozilo = await _context.Vozila.FindAsync(id);
-        if (vozilo == null)
-        {
-            return new NotFoundObjectResult("Vozilo sa zadatim ID-em nije pronadjeno");
-        }
-        _context.Vozila.Remove(vozilo);
+        var vozilo = await _context.Vozila.FirstOrDefaultAsync(k => k.RegistarskiBroj == regBroj);
+        _context.Vozila.Remove(vozilo!);
         await _context.SaveChangesAsync();
-        return new OkObjectResult("Uspesno obrisano vozilo");
     }
 
+
+    //HELPERI
     public async Task<bool> DaLiPostojiAsync(string? regBroj = null)
     {
         if(regBroj != null)
@@ -68,8 +63,13 @@ public class VoziloRepository : IVoziloRepository
         return await _context.Vozila.AnyAsync();
     }
 
-   
-
+    public async Task<bool> DaLiJeIznajmljeno(string regBr)
+    {
+        return await _context.Vozila.AnyAsync(c => c.RegistarskiBroj == regBr && 
+                                                   c.Iznajmljen && 
+                                                   c.BrDanaIznajmljivanja != 0 &&   
+                                                   c.Korisnik != null);
+    }
 
 
 }

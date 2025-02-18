@@ -41,7 +41,7 @@ public class VoziloController : ControllerBase
 
     [HttpGet("PrikaziSve")]
     [SwaggerResponse(StatusCodes.Status200OK, "Vozila su uspesno prikazana.")]
-    [SwaggerResponse(StatusCodes.Status204NoContent, "Nema vozila u bazi trenutno.")]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "Nema vozila u bazi trenutno.")]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Problem sa bazom.")]
     public async Task<IActionResult> PrikaziSve()
     {
@@ -62,19 +62,19 @@ public class VoziloController : ControllerBase
     }
 
     [SwaggerResponse(StatusCodes.Status200OK, "Vozilo je uspesno prikazano.")]
-    [SwaggerResponse(StatusCodes.Status204NoContent, "Nema ovog vozila u bazi trenutno.")]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "Nema ovog vozila u bazi trenutno.")]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Problem sa bazom.")]
     [HttpGet("PrikaziVozilo")]
-    public async Task<IActionResult> PrikaziVozilo([FromQuery , Required ] int id)
+    public async Task<IActionResult> PrikaziVozilo([FromQuery , Required ] string regBroj)
     {
         try
         {
-
-            var result = await _voziloRepo.PrikaziVoziloAsync(id);
-            if (result == null)
+            if (!await _voziloRepo.DaLiPostojiAsync(regBroj))
             {
                 return NotFound("Nema ovog vozila u bazi trenutno.");
             }
+
+            var result = await _voziloRepo.PrikaziVoziloAsync(regBroj);
             return Ok(result);
         }
         catch (Exception)
@@ -88,11 +88,20 @@ public class VoziloController : ControllerBase
     [SwaggerResponse(StatusCodes.Status200OK, "Vozilo je uspesno obrisano.")]
     [SwaggerResponse(StatusCodes.Status404NotFound, "Vozilo sa zadatim ID-em ne postji u bazi.")]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Problem sa bazom.")]
-    public async Task<IActionResult> Obrisi([FromQuery, Required] int id)
+    public async Task<IActionResult> Obrisi([FromQuery, Required] string regBroj)
     {
         try
         {
-            return await _voziloRepo.ObrisiAsync(id);
+            if(!await _voziloRepo.DaLiPostojiAsync(regBroj))
+            {
+                return NotFound("Nije pronadjeno vozilo u bazi");
+            }
+            if(await _voziloRepo.DaLiJeIznajmljeno(regBroj))
+            {
+                return BadRequest("Vozilo je iznajmljeno i ne moze se obrisati");
+            }
+            await _voziloRepo.ObrisiAsync(regBroj);
+            return Ok("Vozilo je obrisano");
         }
         catch (Exception)
         {

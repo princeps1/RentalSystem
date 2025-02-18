@@ -1,9 +1,4 @@
-﻿
-
-
-using WebTemplate.Data;
-
-namespace WebTemplate.Services.Implementations;
+﻿namespace WebTemplate.Services.Implementations;
 
 public class IznajmljivanjeService : IIznajmljivanjeService
 {
@@ -18,39 +13,34 @@ public class IznajmljivanjeService : IIznajmljivanjeService
         _korisnikRepo = korisnikRepo;
         _unitOfWork = unitOfWork;
     }
-    public async Task<ActionResult> IznajmiVoziloAsync(int brDana, int idVozila, string jmbg)
+    public async Task IznajmiVoziloAsync(int brDana, string regBroj, string jmbg)
     {
-        try
-        {
-            var korisnik = await _korisnikRepo.PrikaziKorisnikaAsync(jmbg);
-            if (korisnik == null)
-            {
-                return new NotFoundObjectResult("Nije pronadjen korisnik");
-            }
+        var korisnik = await _korisnikRepo.PrikaziKorisnikaAsync(jmbg);
+        var vozilo = await _voziloRepo.PrikaziVoziloAsync(regBroj);
 
-            // Učitaj vozilo i proveri dostupnost
-            var vozilo = await _voziloRepo.PrikaziVoziloAsync(idVozila);
-            if (vozilo == null)
-            {
-                return new NotFoundObjectResult("Nije pronadjeno vozilo");
-            }
-            if (vozilo.Korisnik != null)
-            {
-                return new BadRequestObjectResult("Vozilo je vec iznajmljeno");
-            }
+        vozilo!.Korisnik = korisnik;
+        vozilo.Iznajmljen = true;
+        vozilo.BrDanaIznajmljivanja = brDana;
+        korisnik!.Vozila!.Add(vozilo);
 
-            vozilo.Korisnik = korisnik;
-            vozilo.Iznajmljen = true;
-            vozilo.BrDanaIznajmljivanja = brDana;
-            korisnik.Vozila!.Add(vozilo);
+        await _unitOfWork.CommitAsync();
+    }
 
-            await _unitOfWork.CommitAsync();
 
-            return new OkObjectResult($"Vozilo sa ID {vozilo.ID} je iznajmljeno korisniku {korisnik.ImePrezime}");
-        }
-        catch (Exception e)
-        {
-            return new BadRequestObjectResult(e.Message);
-        }
+    //HELPERI
+    public async Task<bool> DaLiKorisnikPostojiAsync(string jmbg)
+    {
+        return await _korisnikRepo.DaLiPostojiAsync(jmbg);
+    }
+
+    public async Task<bool> DaLiVoziloPostojiAsync(string regBroj)
+    {
+        return await _voziloRepo.DaLiPostojiAsync(regBroj);
+    }
+
+    public async Task<bool> DaLiJeVoziloIznajmljeno(string regBroj)
+    {
+        return await _voziloRepo.DaLiJeIznajmljeno(regBroj);
+
     }
 }

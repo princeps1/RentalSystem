@@ -10,7 +10,7 @@ public class KorisnikRepository : IKorisnikRepository
     }
 
 
-    public async Task<Korisnik> DodajAsync(string imePrezime, string jmbg, int brVozacke)
+    public async Task<Korisnik> DodajAsync(string imePrezime, string jmbg, string brVozacke)
     {
         var korisnik = new Korisnik
         {
@@ -23,7 +23,7 @@ public class KorisnikRepository : IKorisnikRepository
         return korisnik;
     }
 
-    public async Task<Korisnik> AzurirajVozackuAsync(string jmbg, int noviBrVozacke)
+    public async Task<Korisnik> AzurirajVozackuAsync(string jmbg, string noviBrVozacke)
     {
         var korisnik =  await _context.Korisnici.FirstOrDefaultAsync(k => k.JMBG == jmbg);
 
@@ -72,14 +72,14 @@ public class KorisnikRepository : IKorisnikRepository
     }
 
     //HELPERI
-    public async Task<bool> DaLiPostoji(string? jmbg = null, int? brVozacke = 0)
+    public async Task<bool> DaLiPostojiAsync(string? jmbg = null, string? brVozacke = null)
     {
         var korisnikPostoji = false;
-        if (jmbg == null && brVozacke == 0)
+        if (jmbg == null && brVozacke == null)
         {
             korisnikPostoji = await _context.Korisnici.AnyAsync();
         }
-        else if (brVozacke == 0)
+        else if (brVozacke == null)
         {
             korisnikPostoji = await _context.Korisnici.AnyAsync(k => k.JMBG == jmbg);
         }
@@ -90,7 +90,7 @@ public class KorisnikRepository : IKorisnikRepository
         return korisnikPostoji;
     }
 
-    public async Task<bool> KorisnikJeIznajmioVozilo(string? jmbg = null)
+    public async Task<bool> KorisnikJeIznajmioVoziloAsync(string? jmbg = null)
     {
         var korisnikJeIznajmioVozilo = await _context.Korisnici.Where(k => k.JMBG == jmbg)
                                                .SelectMany(k => k.Vozila!)

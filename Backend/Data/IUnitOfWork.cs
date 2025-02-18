@@ -1,9 +1,4 @@
-﻿using WebTemplate.Repositories.Implementations;
-
-public interface IUnitOfWork : IDisposable
+﻿public interface IUnitOfWork 
 {
-    IKorisnikRepository KorisnikRepository { get; }
-    IVoziloRepository VoziloRepository { get; }
-
     Task<int> CommitAsync();
 }

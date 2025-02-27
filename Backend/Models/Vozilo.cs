@@ -1,5 +1,5 @@
 ﻿
-namespace WebTemplate.Models
+namespace RentalSystem.Models
 {
     public abstract class Vozilo
     {

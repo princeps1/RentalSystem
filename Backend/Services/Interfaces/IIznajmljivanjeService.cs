@@ -1,4 +1,4 @@
-﻿namespace WebTemplate.Services.Interfaces;
+﻿namespace RentalSystem.Services.Interfaces;
 
 public interface IIznajmljivanjeService
 {

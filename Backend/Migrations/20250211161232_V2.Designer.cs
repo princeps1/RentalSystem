@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using WebTemplate.Data;
+using RentalSystem.Data;
 
 #nullable disable
 
-namespace WebTemplate.Migrations
+namespace RentalSystem.Migrations
 {
     [DbContext(typeof(Context))]
     [Migration("20250211161232_V2")]

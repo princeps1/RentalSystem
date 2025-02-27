@@ -1,6 +1,6 @@
 using AutoMapper;
 
-namespace WebTemplate.Repositories.Implementations;
+namespace RentalSystem.Repositories.Implementations;
 
 public class KorisnikRepository : IKorisnikRepository
 {

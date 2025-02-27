@@ -1,6 +1,6 @@
-global using WebTemplate.Data;
+global using RentalSystem.Data;
 global using Microsoft.EntityFrameworkCore;
-global using WebTemplate.Models;
+global using RentalSystem.Models;
 global using Microsoft.AspNetCore.Mvc;
 global using System.ComponentModel.DataAnnotations;
 global using Swashbuckle.AspNetCore.Annotations;
@@ -9,11 +9,11 @@ global using System.Text.Json.Serialization;
 
 
 
-global using WebTemplate.Repositories.Implementations;
-global using WebTemplate.Repositories.Interfaces;
+global using RentalSystem.Repositories.Implementations;
+global using RentalSystem.Repositories.Interfaces;
 
-global using WebTemplate.Services.Interfaces;
-global using WebTemplate.Services.Implementations;
+global using RentalSystem.Services.Interfaces;
+global using RentalSystem.Services.Implementations;
 
-global using WebTemplate.DTOs.Vozilo;
-global using WebTemplate.DTOs.Korisnik;
+global using RentalSystem.DTOs.Vozilo;
+global using RentalSystem.DTOs.Korisnik;

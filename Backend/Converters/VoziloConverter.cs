@@ -1,8 +1,4 @@
-﻿using System;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-
-public class VoziloDodavanjeDTOConverter : JsonConverter<VoziloDodavanjeDTO>
+﻿public class VoziloDodavanjeDTOConverter : JsonConverter<VoziloDodavanjeDTO>
 {
     public override VoziloDodavanjeDTO Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {

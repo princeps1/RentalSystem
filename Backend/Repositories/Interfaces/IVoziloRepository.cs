@@ -1,4 +1,4 @@
-namespace WebTemplate.Repositories.Interfaces;
+namespace RentalSystem.Repositories.Interfaces;
 
 public interface IVoziloRepository 
 {

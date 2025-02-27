@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace WebTemplate.Migrations
+namespace RentalSystem.Migrations
 {
     /// <inheritdoc />
     public partial class V1 : Migration

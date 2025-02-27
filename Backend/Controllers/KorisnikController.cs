@@ -1,6 +1,6 @@
-using WebTemplate.Models;
 
-namespace WebTemplate.KorisnikController;
+
+namespace RentalSystem.KorisnikController;
 
 [ApiController]
 [Route("[controller]")]

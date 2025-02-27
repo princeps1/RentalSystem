@@ -1,7 +1,7 @@
 using AutoMapper;
-using WebTemplate.Models;
+using RentalSystem.Models;
 
-namespace WebTemplate.Repositories.Implementations;
+namespace RentalSystem.Repositories.Implementations;
 
 public class VoziloRepository : IVoziloRepository
 {

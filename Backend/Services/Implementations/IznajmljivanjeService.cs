@@ -1,4 +1,4 @@
-﻿namespace WebTemplate.Services.Implementations;
+﻿namespace RentalSystem.Services.Implementations;
 
 public class IznajmljivanjeService : IIznajmljivanjeService
 {

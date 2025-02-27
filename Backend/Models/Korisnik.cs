@@ -1,4 +1,4 @@
-﻿namespace WebTemplate.Models;
+﻿namespace RentalSystem.Models;
 
 public class Korisnik
 {

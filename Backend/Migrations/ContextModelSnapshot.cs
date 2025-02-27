@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using WebTemplate.Data;
+using RentalSystem.Data;
 
 #nullable disable
 
-namespace WebTemplate.Migrations
+namespace RentalSystem.Migrations
 {
     [DbContext(typeof(Context))]
     partial class ContextModelSnapshot : ModelSnapshot
@@ -22,7 +22,7 @@ namespace WebTemplate.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("WebTemplate.Models.Korisnik", b =>
+            modelBuilder.Entity("RentalSystem.Models.Korisnik", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -47,7 +47,7 @@ namespace WebTemplate.Migrations
                     b.ToTable("Korisnici", (string)null);
                 });
 
-            modelBuilder.Entity("WebTemplate.Models.Vozilo", b =>
+            modelBuilder.Entity("RentalSystem.Models.Vozilo", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -94,9 +94,9 @@ namespace WebTemplate.Migrations
                     b.UseTptMappingStrategy();
                 });
 
-            modelBuilder.Entity("WebTemplate.Models.Automobil", b =>
+            modelBuilder.Entity("RentalSystem.Models.Automobil", b =>
                 {
-                    b.HasBaseType("WebTemplate.Models.Vozilo");
+                    b.HasBaseType("RentalSystem.Models.Vozilo");
 
                     b.Property<int>("BrSedista")
                         .HasColumnType("int");
@@ -112,9 +112,9 @@ namespace WebTemplate.Migrations
                     b.ToTable("Automobili", (string)null);
                 });
 
-            modelBuilder.Entity("WebTemplate.Models.Motor", b =>
+            modelBuilder.Entity("RentalSystem.Models.Motor", b =>
                 {
-                    b.HasBaseType("WebTemplate.Models.Vozilo");
+                    b.HasBaseType("RentalSystem.Models.Vozilo");
 
                     b.Property<string>("Vrsta")
                         .IsRequired()
@@ -123,34 +123,34 @@ namespace WebTemplate.Migrations
                     b.ToTable("Motori", (string)null);
                 });
 
-            modelBuilder.Entity("WebTemplate.Models.Vozilo", b =>
+            modelBuilder.Entity("RentalSystem.Models.Vozilo", b =>
                 {
-                    b.HasOne("WebTemplate.Models.Korisnik", "Korisnik")
+                    b.HasOne("RentalSystem.Models.Korisnik", "Korisnik")
                         .WithMany("Vozila")
                         .HasForeignKey("KorisnikID");
 
                     b.Navigation("Korisnik");
                 });
 
-            modelBuilder.Entity("WebTemplate.Models.Automobil", b =>
+            modelBuilder.Entity("RentalSystem.Models.Automobil", b =>
                 {
-                    b.HasOne("WebTemplate.Models.Vozilo", null)
+                    b.HasOne("RentalSystem.Models.Vozilo", null)
                         .WithOne()
-                        .HasForeignKey("WebTemplate.Models.Automobil", "ID")
+                        .HasForeignKey("RentalSystem.Models.Automobil", "ID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("WebTemplate.Models.Motor", b =>
+            modelBuilder.Entity("RentalSystem.Models.Motor", b =>
                 {
-                    b.HasOne("WebTemplate.Models.Vozilo", null)
+                    b.HasOne("RentalSystem.Models.Vozilo", null)
                         .WithOne()
-                        .HasForeignKey("WebTemplate.Models.Motor", "ID")
+                        .HasForeignKey("RentalSystem.Models.Motor", "ID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("WebTemplate.Models.Korisnik", b =>
+            modelBuilder.Entity("RentalSystem.Models.Korisnik", b =>
                 {
                     b.Navigation("Vozila");
                 });

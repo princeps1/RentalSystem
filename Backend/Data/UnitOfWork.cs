@@ -1,4 +1,4 @@
-﻿namespace WebTemplate.Data;
+﻿namespace RentalSystem.Data;
 
 public class UnitOfWork : IUnitOfWork
 {

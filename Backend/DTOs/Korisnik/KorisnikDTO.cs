@@ -1,4 +1,4 @@
-﻿namespace WebTemplate.DTOs.Korisnik
+﻿namespace RentalSystem.DTOs.Korisnik
 {
     public class KorisnikDTO
     {

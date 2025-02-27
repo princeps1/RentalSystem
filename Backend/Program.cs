@@ -1,4 +1,4 @@
-using WebTemplate.Mappers;
+using RentalSystem.Mappers;
 
 var builder = WebApplication.CreateBuilder(args);
 

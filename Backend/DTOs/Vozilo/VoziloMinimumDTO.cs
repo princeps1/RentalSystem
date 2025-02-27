@@ -1,4 +1,4 @@
-﻿namespace WebTemplate.DTOs.Vozilo
+﻿namespace RentalSystem.DTOs.Vozilo
 {
     public class VoziloMinimumDTO
     {

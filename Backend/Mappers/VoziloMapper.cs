@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace WebTemplate.Mappers;
+namespace RentalSystem.Mappers;
 
 public class VoziloMapper : Profile
 {

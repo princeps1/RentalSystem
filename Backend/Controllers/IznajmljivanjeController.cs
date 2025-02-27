@@ -1,4 +1,4 @@
-﻿namespace WebTemplate.Controllers;
+﻿namespace RentalSystem.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]

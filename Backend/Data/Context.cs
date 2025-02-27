@@ -1,8 +1,4 @@
-﻿
-
-
-
-namespace WebTemplate.Data;
+﻿namespace RentalSystem.Data;
 public class Context : DbContext
 {
     // DbSet kolekcije!

@@ -1,4 +1,6 @@
-﻿namespace RentalSystem.Domain.Mappers;
+﻿using RentalSystem.Domain.DTOs;
+
+namespace RentalSystem.Domain.Mappers;
 
 public class KorisnikMapper : Profile
 {
@@ -6,6 +8,8 @@ public class KorisnikMapper : Profile
     {
         CreateMap<Korisnik, KorisnikDTO>()
             .ForMember(dest => dest.Vozila, opt => opt.MapFrom(src => src.Vozila)); // Mapiranje liste vozila
+        
+        CreateMap<ApplicationUser,UserDTO>().ReverseMap();  
     }
 }
 

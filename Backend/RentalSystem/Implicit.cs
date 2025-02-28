@@ -16,4 +16,6 @@ global using RentalSystem.Domain.Data;
 global using RentalSystem.Domain.Models;
 global using RentalSystem.Domain.DTOs.Vozilo;
 global using RentalSystem.Domain.DTOs.Korisnik;
+global using RentalSystem.Domain.DTOs;
+
 

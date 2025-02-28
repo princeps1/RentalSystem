@@ -4,7 +4,7 @@
 [ApiController]
 public class IznajmljivanjeController : ControllerBase
 {
-   private readonly IIznajmljivanjeService _iznajmljivanjeService;
+    private readonly IIznajmljivanjeService _iznajmljivanjeService;
     public IznajmljivanjeController(IIznajmljivanjeService iznajmljivanjeService)
     {
         _iznajmljivanjeService = iznajmljivanjeService;

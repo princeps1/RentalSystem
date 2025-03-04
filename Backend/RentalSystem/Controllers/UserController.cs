@@ -27,9 +27,9 @@ public class UserController : ControllerBase
     public async Task<IActionResult> RegisterAsync([FromBody] RegistrationRequestDTO model)
     {
         bool ifUserNameUnique =  _userRepo.IsUniqueUser(model.UserName);
-        if(ifUserNameUnique)
+        if(!ifUserNameUnique)
         {
-            return BadRequest();
+            return BadRequest("Vec postoji korisnik sa ovim username ili password");
         }
         var user = await _userRepo.Register(model);
         if(user == null)

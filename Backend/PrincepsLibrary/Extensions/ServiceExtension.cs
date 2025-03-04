@@ -1,5 +1,7 @@
 ﻿
 
+using Microsoft.OpenApi.Models;
+
 namespace PrincepsLibrary.Extensions;
 
 public static class ServiceExtension
@@ -43,7 +45,34 @@ public static class ServiceExtension
         builder.Services.AddSwaggerGen(c =>
         {
             c.EnableAnnotations();
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = "Rental System API", Version = "v1" });
+
+            // Dodavanje JWT autentifikacije u Swagger
+            c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            {
+                Description = "Unesi JWT token u formatu: Bearer <tvoj-token>",
+                Name = "Authorization",
+                In = ParameterLocation.Header,
+                Type = SecuritySchemeType.Http,
+                Scheme = "Bearer"
+            });
+
+            c.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                    },
+                    new string[] {}
+                }
+            });
         });
+
 
     }
 }

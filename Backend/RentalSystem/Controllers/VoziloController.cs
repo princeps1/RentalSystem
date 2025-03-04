@@ -1,5 +1,6 @@
 ﻿namespace RentalSystem.Controllers;
 
+[Authorize(Roles = "admin")]
 [ApiController]
 [Route("[controller]")]
 public class VoziloController : ControllerBase

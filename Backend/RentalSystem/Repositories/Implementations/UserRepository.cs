@@ -30,7 +30,7 @@ public class UserRepository : IUserRepository
         var user = _context.ApplicationUsers.FirstOrDefault(x => x.UserName == userName);
         if(user == null)
         {
-            return false;
+            return true;
         }
         return false;
     }
@@ -58,8 +58,8 @@ public class UserRepository : IUserRepository
         var role = roles.FirstOrDefault();
         if (role == null)
         {
-            // Postavi podrazumevanu vrednost ili izvrši odgovarajuću logiku
-            role = "admin"; // ili preskoči kreiranje ovog claim-a
+            
+            role = "admin";
         }
 
         var tokenDescriptor = new SecurityTokenDescriptor

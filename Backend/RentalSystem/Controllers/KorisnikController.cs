@@ -1,7 +1,7 @@
-
-
 namespace RentalSystem.KorisnikController;
 
+
+[Authorize(Roles = "admin")]
 [ApiController]
 [Route("[controller]")]
 public class KorisnikController : ControllerBase

@@ -2,6 +2,7 @@ global using Microsoft.EntityFrameworkCore;
 global using Microsoft.AspNetCore.Mvc;
 global using System.ComponentModel.DataAnnotations;
 global using Swashbuckle.AspNetCore.Annotations;
+global using Microsoft.AspNetCore.Authorization;
 
 global using PrincepsLibrary.Extensions;
 

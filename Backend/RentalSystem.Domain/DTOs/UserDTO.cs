@@ -1,8 +1,10 @@
-﻿namespace RentalSystem.Domain.DTOs;
+﻿
+namespace RentalSystem.Domain.DTOs;
 
 public class UserDTO
 {
-    public string ID { get; set; }
-    public string UserName { get; set; }
-    public string Name { get; set; }
+    [Key]
+    public  string? ID { get; set; }
+    public string? UserName { get; set; }
+    public string? Name { get; set; }
 }

@@ -1,0 +1,19 @@
+﻿@page "/"
+@inject IKorisnik KorisnikData;
+@using RentalSystemUI.DTOs.Korisnik
+
+@if (korisnici is not null)
+{
+    @foreach(var korisnik in korisnici)
+    {
+        <li>@korisnik.ImePrezime @korisnik.JMBG</li>
+    }
+}
+
+@code {
+    private List<KorisnikDTO>? korisnici;
+    protected override async Task OnInitializedAsync()
+    {
+        korisnici = await KorisnikData.PrikaziSve();
+    }
+}

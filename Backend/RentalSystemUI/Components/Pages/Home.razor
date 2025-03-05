@@ -1,5 +1,36 @@
 ﻿@page "/"
-@inject IKorisnik KorisnikData;
+
+
+<section class="hero">
+    <h1>Welcome</h1>
+    <p>Lorem sint harum, rem reprehenderit ad iusto, laborum minus voluptatibus deleniti aliquam suscipit vitae!</p>
+    <video preload="auto" muted autoplay loop playsinline>
+        <source src="videos/auto video.mp4" type="video/mp4">
+    </video>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@* @inject IKorisnik KorisnikData;
 @using RentalSystemUI.DTOs.Korisnik
 
 @if (korisnici is not null)
@@ -16,4 +47,4 @@
     {
         korisnici = await KorisnikData.PrikaziSve();
     }
-}
+} *@

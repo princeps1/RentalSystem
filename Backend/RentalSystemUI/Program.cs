@@ -1,3 +1,4 @@
+using MudBlazor.Services;
 using Refit;
 using RentalSystemUI.Components;
 using RentalSystemUI.DataAccess;
@@ -7,6 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Services.AddMudServices();
 
 builder.Services.AddRefitClient<IKorisnik>().ConfigureHttpClient(c =>
 {

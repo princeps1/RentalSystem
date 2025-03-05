@@ -1,0 +1,32 @@
+﻿
+/* NavMenu.razor */
+.navbar{
+
+}
+
+
+/* Home.razor */
+.hero {
+    text-align: center;
+    padding: 50px;
+}
+
+.hero video {
+    width: 100%;
+    max-width: 1000px;
+}
+
+.hero p {
+    font-size: 20px;
+    font-weight: 200;
+    color: #787374;
+}
+
+.hero h1 {
+    text-transform: uppercase;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 70px;
+    font-weight: 300;
+    color: #787374;
+    margin-top: 50px;
+}

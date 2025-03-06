@@ -1,4 +1,4 @@
-using MudBlazor.Services;
+﻿using MudBlazor.Services;
 using Refit;
 using RentalSystemUI.Components;
 using RentalSystemUI.DataAccess;

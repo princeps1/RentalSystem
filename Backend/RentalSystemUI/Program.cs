@@ -1,49 +1,56 @@
-﻿using MudBlazor.Services;
+using AuthUI.DataAccess;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Refit;
-using RentalSystemUI.Components;
-using RentalSystemUI.DataAccess;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents();
-
-builder.Services.AddMudServices();
-
-builder.Services.AddRefitClient<IKorisnik>().ConfigureHttpClient(c =>
+builder.Services.AddControllersWithViews();
+builder.Services.AddRefitClient<IAuth>().ConfigureHttpClient(c =>
 {
     c.BaseAddress = new Uri("https://localhost:7000");
 });
 
-builder.Services.AddCors(policy =>
+builder.Services.AddDistributedMemoryCache();
+
+builder.Services.AddSession(options =>
 {
-    policy.AddPolicy("OpenCorsPolicy", opt =>
-    {
-        opt.AllowAnyOrigin()
-        .AllowAnyHeader()
-        .AllowAnyMethod();
-    });
+    options.IdleTimeout = TimeSpan.FromMinutes(100);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
 });
 
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.Cookie.HttpOnly = true;
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+        options.LoginPath = "/Auth/Login";
+        options.SlidingExpiration = true;
+    });
 
+
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Error", createScopeForErrors: true);
+    app.UseExceptionHandler("/Home/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
-app.UseCors("OpenCorsPolicy");
 app.UseStaticFiles();
-app.UseAntiforgery();
 
-app.MapRazorComponents<App>()
-    .AddInteractiveServerRenderMode();
+app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
+app.UseSession();
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

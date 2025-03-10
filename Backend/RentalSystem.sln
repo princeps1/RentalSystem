@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RentalSystem", "RentalSyste
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrincepsLibrary", "PrincepsLibrary\PrincepsLibrary.csproj", "{12D395EF-28B4-4F42-A72E-79EB16E3AB9D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RentalSystemUI", "RentalSystemUI\RentalSystemUI.csproj", "{CF76484F-DF21-41B8-8A09-F065563793B3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentalSystemUI", "RentalSystemUI\RentalSystemUI.csproj", "{1A2C4FBC-D259-4161-8102-E3DBC47FF20E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,10 @@ Global
 		{12D395EF-28B4-4F42-A72E-79EB16E3AB9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{12D395EF-28B4-4F42-A72E-79EB16E3AB9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{12D395EF-28B4-4F42-A72E-79EB16E3AB9D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CF76484F-DF21-41B8-8A09-F065563793B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CF76484F-DF21-41B8-8A09-F065563793B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CF76484F-DF21-41B8-8A09-F065563793B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CF76484F-DF21-41B8-8A09-F065563793B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A2C4FBC-D259-4161-8102-E3DBC47FF20E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A2C4FBC-D259-4161-8102-E3DBC47FF20E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A2C4FBC-D259-4161-8102-E3DBC47FF20E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A2C4FBC-D259-4161-8102-E3DBC47FF20E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

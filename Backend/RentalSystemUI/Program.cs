@@ -1,12 +1,19 @@
-using AuthUI.DataAccess;
-using Microsoft.AspNetCore.Authentication.Cookies;
+﻿ using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Refit;
+using RentalSystemUI.DataAccess;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddRefitClient<IAuth>().ConfigureHttpClient(c =>
+{
+    c.BaseAddress = new Uri("https://localhost:7000");
+});
+
+builder.Services.AddRefitClient<IKorisnik>().ConfigureHttpClient(c =>
 {
     c.BaseAddress = new Uri("https://localhost:7000");
 });
@@ -26,12 +33,11 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.Cookie.HttpOnly = true;
         options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
         options.LoginPath = "/Auth/Login";
+        options.AccessDeniedPath = "/Auth/AccessDenied";
         options.SlidingExpiration = true;
     });
 
-
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

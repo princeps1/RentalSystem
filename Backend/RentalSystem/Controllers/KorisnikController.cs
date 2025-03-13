@@ -1,7 +1,7 @@
 namespace RentalSystem.KorisnikController;
 
 
-//[Authorize(Roles = "admin")]
+[Authorize]
 [Route("[controller]")]
 [ApiController]
 public class KorisnikController : ControllerBase
@@ -13,7 +13,6 @@ public class KorisnikController : ControllerBase
     {
         _korisnikRepo = korisnik;
     }
-
 
     [HttpPost("Dodaj")]
     [SwaggerResponse(StatusCodes.Status200OK, "Korisnik je uspesno dodato.")]
@@ -39,7 +38,6 @@ public class KorisnikController : ControllerBase
         }
     }
 
-
     [HttpPut("Azuriraj")]
     [SwaggerResponse(StatusCodes.Status200OK, "Korisnik je uspeno azuriran.")]
     [SwaggerResponse(StatusCodes.Status404NotFound, "Nema korisnika u bazi trenutno.")]
@@ -62,7 +60,6 @@ public class KorisnikController : ControllerBase
         }
     }
 
-
     [HttpGet("PrikaziSve")]
     [SwaggerResponse(StatusCodes.Status200OK, "Korisnici su uspesno prikazana.")]
     [SwaggerResponse(StatusCodes.Status404NotFound, "Nema korisnika u bazi trenutno.")]
@@ -84,7 +81,6 @@ public class KorisnikController : ControllerBase
         }
     }
 
-
     [HttpGet("PrikaziKorisnika")]
     [SwaggerResponse(StatusCodes.Status200OK, "Korisnik je uspesno prikazan.")]
     [SwaggerResponse(StatusCodes.Status404NotFound, "Nema ovog korisnika u bazi trenutno.")]
@@ -105,7 +101,6 @@ public class KorisnikController : ControllerBase
             return BadRequest("Greska");
         }
     }
-
 
     [HttpDelete("Obrisi")]
     [SwaggerResponse(StatusCodes.Status200OK, "Korisnik je uspesno obrisan.")]

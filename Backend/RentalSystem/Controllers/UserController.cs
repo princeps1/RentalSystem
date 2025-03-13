@@ -1,4 +1,5 @@
 ﻿using System.Reflection.Metadata.Ecma335;
+using RentalSystem.Domain.DTOs.Auth;
 
 namespace RentalSystem.Controllers;
 
@@ -26,7 +27,7 @@ public class UserController : ControllerBase
     [HttpPost("register")]
     public async Task<IActionResult> RegisterAsync([FromBody] RegistrationRequestDTO model)
     {
-        bool ifUserNameUnique =  _userRepo.IsUniqueUser(model.UserName);
+        bool ifUserNameUnique =  _userRepo.IsUniqueUser(model.UserName!);
         if(!ifUserNameUnique)
         {
             return BadRequest("Vec postoji korisnik sa ovim username ili password");

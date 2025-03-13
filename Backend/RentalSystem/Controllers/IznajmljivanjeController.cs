@@ -1,7 +1,7 @@
 ﻿namespace RentalSystem.Controllers;
 
 
-[Authorize(Roles = "admin")]
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 public class IznajmljivanjeController : ControllerBase
@@ -11,7 +11,6 @@ public class IznajmljivanjeController : ControllerBase
     {
         _iznajmljivanjeService = iznajmljivanjeService;
     }
-
 
     [HttpGet("IznajmiVozilo")]
     [SwaggerResponse(StatusCodes.Status200OK, "Vozilo je uspesno iznajmljeno.")]

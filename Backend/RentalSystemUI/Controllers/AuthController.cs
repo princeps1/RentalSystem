@@ -1,9 +1,9 @@
-﻿using AuthUI.DataAccess;
-using RentalSystemUI.DTOs;
+﻿using RentalSystemUI.DataAccess;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using RentalSystemUI.DTOs.Auth;
 
 namespace RentalSystemUI.Controllers;
 
@@ -29,7 +29,6 @@ public class AuthController : Controller
         var result = await _authService.Login(obj);
         if (result != null)
         {
-            //LoginResponseDTO model = JsonConvert.DeserializeObject<LoginResponseDTO>(Convert.ToString(result)!)!;
 
             var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
             identity.AddClaim(new Claim(ClaimTypes.Name, result!.User!.UserName!));
@@ -38,7 +37,7 @@ public class AuthController : Controller
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
 
-            HttpContext.Session.SetString("JWToken", result!.Token!);
+            HttpContext.Session.SetString("JWToken", result!.Token!);//ako je session toket postavljen znaci da je korisnik ulogovan
             return RedirectToAction("Index", "Home");
         }
         else
@@ -70,5 +69,10 @@ public class AuthController : Controller
         await HttpContext.SignOutAsync();
         HttpContext.Session.SetString("JWToken", "");
         return RedirectToAction("Index","Home");
+    }
+
+    public IActionResult AccessDenied()
+    {
+        return View();
     }
 }

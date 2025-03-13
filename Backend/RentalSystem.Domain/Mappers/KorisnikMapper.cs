@@ -1,4 +1,4 @@
-﻿using RentalSystem.Domain.DTOs;
+﻿using RentalSystem.Domain.DTOs.Auth;
 
 namespace RentalSystem.Domain.Mappers;
 

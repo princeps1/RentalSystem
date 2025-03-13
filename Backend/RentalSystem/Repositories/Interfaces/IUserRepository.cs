@@ -1,4 +1,6 @@
-﻿namespace RentalSystem.Repositories.Interfaces;
+﻿using RentalSystem.Domain.DTOs.Auth;
+
+namespace RentalSystem.Repositories.Interfaces;
 
 public interface IUserRepository
 {

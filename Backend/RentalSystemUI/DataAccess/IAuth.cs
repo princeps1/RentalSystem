@@ -1,7 +1,7 @@
-﻿using RentalSystemUI.DTOs;
-using Refit;
+﻿using Refit;
+using RentalSystemUI.DTOs.Auth;
 
-namespace AuthUI.DataAccess;
+namespace RentalSystemUI.DataAccess;
 
 public interface IAuth
 {

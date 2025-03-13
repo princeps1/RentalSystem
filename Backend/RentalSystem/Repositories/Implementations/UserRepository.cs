@@ -3,7 +3,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
-using RentalSystem.Domain.DTOs;
+using RentalSystem.Domain.DTOs.Auth;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -58,7 +58,6 @@ public class UserRepository : IUserRepository
         var role = roles.FirstOrDefault();
         if (role == null)
         {
-            
             role = "admin";
         }
 
@@ -79,7 +78,7 @@ public class UserRepository : IUserRepository
         {
             User = _mapper.Map<UserDTO>(user),
             Token = tokenHandler.WriteToken(token),
-            Role = roles.FirstOrDefault()!
+           // Role = roles.FirstOrDefault()!
         };
         return loginResponseDto;
     }

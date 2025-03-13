@@ -1,6 +1,6 @@
 ﻿namespace RentalSystem.Controllers;
 
-[Authorize(Roles = "admin")]
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class VoziloController : ControllerBase
@@ -39,6 +39,7 @@ public class VoziloController : ControllerBase
             return BadRequest(e.Message);
         }
     }
+
 
     [HttpGet("PrikaziSve")]
     [SwaggerResponse(StatusCodes.Status200OK, "Vozila su uspesno prikazana.")]
@@ -83,7 +84,6 @@ public class VoziloController : ControllerBase
             return BadRequest();
         }
     }
-
 
     [HttpDelete("Obrisi")]
     [SwaggerResponse(StatusCodes.Status200OK, "Vozilo je uspesno obrisano.")]

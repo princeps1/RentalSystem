@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RentalSystem", "RentalSyste
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrincepsLibrary", "PrincepsLibrary\PrincepsLibrary.csproj", "{12D395EF-28B4-4F42-A72E-79EB16E3AB9D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentalSystemUI", "RentalSystemUI\RentalSystemUI.csproj", "{1A2C4FBC-D259-4161-8102-E3DBC47FF20E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RentalSystemUI", "RentalSystemUI\RentalSystemUI.csproj", "{1A2C4FBC-D259-4161-8102-E3DBC47FF20E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

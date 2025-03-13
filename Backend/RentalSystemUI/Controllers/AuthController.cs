@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using RentalSystemUI.DTOs.Auth;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace RentalSystemUI.Controllers;
 
@@ -29,10 +30,12 @@ public class AuthController : Controller
         var result = await _authService.Login(obj);
         if (result != null)
         {
+            var handler = new JwtSecurityTokenHandler();
+            var jwt = handler.ReadJwtToken(result.Token);
 
             var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
             identity.AddClaim(new Claim(ClaimTypes.Name, result!.User!.UserName!));
-            //identity.AddClaim(new Claim(ClaimTypes.Role, result!.User!.Role!));
+            identity.AddClaim(new Claim(ClaimTypes.Role, jwt.Claims.FirstOrDefault(u => u.Type=="role").Value));
             var principal = new ClaimsPrincipal(identity);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 

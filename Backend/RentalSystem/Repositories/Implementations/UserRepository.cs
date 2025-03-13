@@ -17,7 +17,8 @@ public class UserRepository : IUserRepository
     private readonly RoleManager<IdentityRole> _roleManager;
     private string secretKey;
     private readonly IMapper _mapper;
-    public UserRepository(Context context,IConfiguration conf,UserManager<ApplicationUser> userManager,IMapper mapper,RoleManager<IdentityRole> rolemanager)
+    public UserRepository(Context context,IConfiguration conf,UserManager<ApplicationUser> userManager,
+        IMapper mapper,RoleManager<IdentityRole> rolemanager)
     {
         _context = context;
         _userManager = userManager;
@@ -55,18 +56,13 @@ public class UserRepository : IUserRepository
         var key = Encoding.UTF8.GetBytes(secretKey);
         var roles = await _userManager.GetRolesAsync(user);
 
-        var role = roles.FirstOrDefault();
-        if (role == null)
-        {
-            role = "admin";
-        }
 
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(new Claim[]
             {
-                new Claim(ClaimTypes.Name, user.Id.ToString()),
-                new Claim(ClaimTypes.Role, role)
+                new Claim(ClaimTypes.Name, user.UserName!.ToString()),
+                new Claim(ClaimTypes.Role, roles.FirstOrDefault()!)
             }),
             Expires = DateTime.UtcNow.AddDays(7),
             SigningCredentials = new(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
@@ -78,7 +74,7 @@ public class UserRepository : IUserRepository
         {
             User = _mapper.Map<UserDTO>(user),
             Token = tokenHandler.WriteToken(token),
-           // Role = roles.FirstOrDefault()!
+            //Role = roles.FirstOrDefault()!
         };
         return loginResponseDto;
     }
@@ -94,14 +90,15 @@ public class UserRepository : IUserRepository
 
         try
         {
-            var result = await _userManager.CreateAsync(user, model.Password);
+            var result = await _userManager.CreateAsync(user, model.Password!);
             if(result.Succeeded)
             {
                 if (!_roleManager.RoleExistsAsync("admin").GetAwaiter().GetResult()){
                     await _roleManager.CreateAsync(new IdentityRole("admin"));
                 }
                 await _userManager.AddToRoleAsync(user, "admin");
-                var userToReturn = await _context.ApplicationUsers.FirstOrDefaultAsync(c => c.UserName == model.UserName);
+                var userToReturn = await _context.ApplicationUsers
+                    .FirstOrDefaultAsync(c => c.UserName == model.UserName);
                 return _mapper.Map<UserDTO>(userToReturn);
             }
         }

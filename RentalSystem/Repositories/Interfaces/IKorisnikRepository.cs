@@ -12,4 +12,6 @@ public interface IKorisnikRepository
     public Task<bool> DaLiPostojiAsync(string? jmbg = null, string? brVozacke = null);
     public Task<bool> KorisnikJeIznajmioVoziloAsync(string? jmbg = null);
 
+    public Task<Korisnik> DohvatiKorisnikaAsync(string jmbg);
+
 }

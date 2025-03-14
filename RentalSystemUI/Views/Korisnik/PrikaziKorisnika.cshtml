@@ -48,7 +48,8 @@ else
     @using (Html.BeginForm("ObrisiKorisnika", "Korisnik", new { jmbg = Model.JMBG }, FormMethod.Post))
     {
         <button type="submit" class="btn btn-danger"
-                onclick="return confirm('Da li ste sigurni da želite da obrišete ovog korisnika?')">
+                onclick="return confirm('Da li ste sigurni da želite da obrišete ovog korisnika?')"
+        @(Model.Vozila != null && Model.Vozila.Any() ? "disabled" : "")>
             Obriši
         </button>
     }

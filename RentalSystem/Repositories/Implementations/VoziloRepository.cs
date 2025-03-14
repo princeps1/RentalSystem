@@ -1,5 +1,6 @@
 using AutoMapper;
 using RentalSystem.Domain.Models;
+using System;
 
 namespace RentalSystem.Repositories.Implementations;
 
@@ -41,11 +42,11 @@ public class VoziloRepository : IVoziloRepository
     }
 
 
-    public async Task<Vozilo?> PrikaziVoziloAsync(string regBroj)
+    public async Task<VoziloDTO?> PrikaziVoziloAsync(string regBroj)
     {
         var vozilo = await _context.Vozila.FirstOrDefaultAsync(k => k.RegistarskiBroj == regBroj);
-        //VoziloDTO voziloDTO = _mapper.Map<VoziloDTO>(vozilo);
-        return vozilo;
+        var voziloDTO = _mapper.Map<VoziloDTO>(vozilo);
+        return voziloDTO;
     }
 
     public async Task ObrisiAsync(string regBroj)
@@ -77,5 +78,9 @@ public class VoziloRepository : IVoziloRepository
                                                    c.Korisnik != null);
     }
 
-
+    public async Task<Vozilo?> DohvatiVoziloAsync(string regBroj)
+    {
+        var vozilo = await _context.Vozila.FirstOrDefaultAsync(k => k.RegistarskiBroj == regBroj);
+        return vozilo;
+    }
 }

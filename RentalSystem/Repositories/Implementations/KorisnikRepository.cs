@@ -113,4 +113,9 @@ public class KorisnikRepository : IKorisnikRepository
         return korisnikJeIznajmioVozilo;
     }
 
+    public async Task<Korisnik> DohvatiKorisnikaAsync(string jmbg)
+    {
+        var korisnik = await _context.Korisnici.FirstOrDefaultAsync(k => k.JMBG == jmbg);
+        return korisnik!;
+    }
 }

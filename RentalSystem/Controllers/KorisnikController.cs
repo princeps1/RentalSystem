@@ -37,13 +37,13 @@ public class KorisnikController : ControllerBase
             return BadRequest("Greska");
         }
     }
-
     [HttpPut("Azuriraj")]
     [SwaggerResponse(StatusCodes.Status200OK, "Korisnik je uspeno azuriran.")]
     [SwaggerResponse(StatusCodes.Status404NotFound, "Nema korisnika u bazi trenutno.")]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Greska.")]
-    public async Task<IActionResult> AzurirajVozacku([FromQuery, Required , StringLength(13)] string jmbg,
-                                                     [FromQuery, Required] string noviBrVozacke)
+    public async Task<IActionResult> AzurirajVozacku(
+        [FromQuery, Required, StringLength(13)] string jmbg,
+        [FromQuery, Required] string noviBrVozacke)
     {
         try
         {
@@ -59,6 +59,7 @@ public class KorisnikController : ControllerBase
             return BadRequest();
         }
     }
+
 
     [HttpGet("PrikaziSve")]
     [SwaggerResponse(StatusCodes.Status200OK, "Korisnici su uspesno prikazana.")]
@@ -81,11 +82,11 @@ public class KorisnikController : ControllerBase
         }
     }
 
-    [HttpGet("PrikaziKorisnika")]
+    [HttpGet("PrikaziKorisnika/{jmbg}")]
     [SwaggerResponse(StatusCodes.Status200OK, "Korisnik je uspesno prikazan.")]
     [SwaggerResponse(StatusCodes.Status404NotFound, "Nema ovog korisnika u bazi trenutno.")]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Greska.")]
-    public async Task<IActionResult> PrikaziKorisnika([FromQuery, Required, StringLength(13)] string jmbg)
+    public async Task<IActionResult> PrikaziKorisnika([FromRoute] string jmbg)
     {
         try
         {
@@ -102,11 +103,12 @@ public class KorisnikController : ControllerBase
         }
     }
 
-    [HttpDelete("Obrisi")]
+
+    [HttpDelete("Obrisi/{jmbg}")]
     [SwaggerResponse(StatusCodes.Status200OK, "Korisnik je uspesno obrisan.")]
     [SwaggerResponse(StatusCodes.Status404NotFound, "Nema ovog korisnika u bazi trenutno.")]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Korisnik je iznajmio vozilo i ne moze biti obrisan.")]
-    public async Task<IActionResult> Obris([FromQuery, Required, StringLength(13)] string jmbg)
+    public async Task<IActionResult> Obris([FromRoute] string jmbg)
     {
         try
         {

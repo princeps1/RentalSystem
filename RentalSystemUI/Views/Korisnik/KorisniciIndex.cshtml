@@ -2,7 +2,6 @@
 
 <h2>Lista korisnika</h2>
 
-<!-- Dugme za dodavanje korisnika -->
 <a class="btn btn-primary mb-3" asp-controller="Korisnik" asp-action="Dodaj">Dodaj korisnika</a>
 
 @if (Model != null && Model.Any())
@@ -12,14 +11,19 @@
             @foreach (var korisnik in Model)
             {
                 <div class="col">
-                    <div class="card shadow-sm">
-                        <img src="..." class="card-img-top" alt="Korisnik slika" style="height: 200px; object-fit: cover;">
-                        <div class="card-body">
-                            <h5 class="card-title text-center">@korisnik.ImePrezime</h5>
-                            <p class="card-text"><strong>JMBG:</strong> @korisnik.JMBG</p>
-                            <p class="card-text"><strong>Broj vozačke:</strong> @korisnik.BrVozacke</p>
+                    <a asp-controller="Korisnik"
+                       asp-action="PrikaziKorisnika"
+                       asp-route-jmbg="@korisnik.JMBG"
+                       style="text-decoration: none; color: inherit;">
+                        <div class="card shadow-sm">
+                            <img src="..." class="card-img-top" alt="Korisnik slika" style="height: 200px; object-fit: cover;">
+                            <div class="card-body">
+                                <h5 class="card-title text-center">@korisnik.ImePrezime</h5>
+                                <p class="card-text"><strong>JMBG:</strong> @korisnik.JMBG</p>
+                                <p class="card-text"><strong>Broj vozačke:</strong> @korisnik.BrVozacke</p>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
             }
         </div>

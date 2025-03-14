@@ -1,0 +1,25 @@
+﻿@model RentalSystemUI.DTOs.Korisnik.KorisnikDTO
+
+<h2>Ažuriraj vozačku</h2>
+
+<form asp-action="AzurirajVozacku" method="post" asp-route-jmbg="@Model.JMBG">
+    <div class="form-group">
+        <label>Ime i prezime:</label>
+        <input type="text" class="form-control" value="@Model.ImePrezime" disabled />
+    </div>
+    <div class="form-group mt-2">
+        <label asp-for="BrVozacke"></label>
+        <input asp-for="BrVozacke" class="form-control" />
+        <span asp-validation-for="BrVozacke" class="text-danger"></span>
+    </div>
+    <div class="mt-3">
+        <button type="submit" class="btn btn-primary">Ažuriraj</button>
+        <a class="btn btn-secondary" asp-controller="Korisnik" asp-action="PrikaziKorisnika" asp-route-jmbg="@Model.JMBG">Otkaži</a>
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

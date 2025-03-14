@@ -19,6 +19,8 @@ public class AuthController : Controller
     [HttpGet]
     public IActionResult Login()
     {
+        if (User.Identity!.IsAuthenticated)
+            return RedirectToAction("Index", "Home");
         LoginRequestDTO obj = new();
         return View();
     }
@@ -52,6 +54,8 @@ public class AuthController : Controller
     [HttpGet]
     public IActionResult Register()
     {
+        if (User.Identity!.IsAuthenticated)
+            return RedirectToAction("Index", "Home");
         return View();
     }
 

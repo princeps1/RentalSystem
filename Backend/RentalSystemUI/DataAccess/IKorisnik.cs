@@ -9,13 +9,12 @@ namespace RentalSystemUI.DataAccess;
 public interface IKorisnik
 {
     [Post("/Korisnik/Dodaj")]
-    public Task<IActionResult> Dodaj([FromQuery, Required] string imePrezime,
-                                           [FromQuery, Required, StringLength(13)] string jmbg,
-                                           [FromQuery, Required] string brVozacke, string token);
+    Task Dodaj([Query, Required] string imePrezime,[Query, Required, StringLength(13)] string jmbg,
+                              [Query, Required] string brVozacke,[Header("Authorization")] string token);
 
     [Post("/Korisnik/AzurirajVozacku")]
     public Task<IActionResult> AzurirajVozacku([FromQuery, Required, StringLength(13)] string jmbg,
-                                                         [FromQuery, Required] string noviBrVozacke, string token);
+                                               [FromQuery, Required] string noviBrVozacke, [Header("Authorization")] string token);
 
 
     [Get("/Korisnik/PrikaziSve")]

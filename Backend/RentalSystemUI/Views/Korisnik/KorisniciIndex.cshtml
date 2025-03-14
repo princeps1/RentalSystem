@@ -1,6 +1,10 @@
 ﻿@model IEnumerable<RentalSystemUI.DTOs.Korisnik.KorisnikDTO>
 
 <h2>Lista korisnika</h2>
+
+<!-- Dugme za dodavanje korisnika -->
+<a class="btn btn-primary mb-3" asp-controller="Korisnik" asp-action="Dodaj">Dodaj korisnika</a>
+
 @if (Model != null && Model.Any())
 {
     <div class="container">
@@ -20,8 +24,6 @@
             }
         </div>
     </div>
-
-
 }
 else
 {

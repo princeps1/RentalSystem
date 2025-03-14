@@ -40,7 +40,7 @@ public class UserRepository : IUserRepository
     {
         var user = _context.ApplicationUsers.FirstOrDefault(x => x.UserName == model.UserName);
 
-        bool isValid = await _userManager.CheckPasswordAsync(user!, model.Password);
+        bool isValid = await _userManager.CheckPasswordAsync(user!, model.Password!);
 
         if(user == null || !isValid)
         {

@@ -1,0 +1,31 @@
+﻿@{
+    ViewData["Title"] = "Dodaj korisnika";
+}
+
+<h2>Dodaj korisnika</h2>
+
+<form asp-action="Dodaj" method="post">
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <label for="imePrezime">Ime i prezime</label>
+        <input type="text" class="form-control" id="imePrezime" name="imePrezime" required />
+    </div>
+
+    <div class="form-group">
+        <label for="jmbg">JMBG</label>
+        <input type="text" class="form-control" id="jmbg" name="jmbg" maxlength="13" required />
+    </div>
+
+    <div class="form-group">
+        <label for="brVozacke">Broj vozačke dozvole</label>
+        <input type="text" class="form-control" id="brVozacke" name="brVozacke" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Dodaj korisnika</button>
+</form>
+
+
+
+
+

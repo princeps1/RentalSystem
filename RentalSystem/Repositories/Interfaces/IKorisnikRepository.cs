@@ -5,7 +5,7 @@ public interface IKorisnikRepository
     public Task<Korisnik> DodajAsync(string imePrezime, string jmbg, string brVozacke);
     public Task<Korisnik> AzurirajVozackuAsync(string jmbg,string brVozacke);
     public Task<List<KorisnikDTO>> PrikaziSveAsync();
-    public Task<Korisnik?> PrikaziKorisnikaAsync(string jmbg);
+    public Task<KorisnikDTO?> PrikaziKorisnikaAsync(string jmbg);
     public Task ObrisiAsync(string jmbg);
 
     //HELPERI

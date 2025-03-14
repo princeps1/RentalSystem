@@ -33,8 +33,7 @@ public static class ServiceExtension
         });
 
 
-        builder.Services.AddAutoMapper(typeof(KorisnikMapper));
-        builder.Services.AddAutoMapper(typeof(VoziloMapper));
+        builder.Services.AddAutoMapper(typeof(MappingProfile));
 
         builder.Services.AddControllers().AddJsonOptions(options =>
         {

@@ -1,4 +1,5 @@
 using AutoMapper;
+using RentalSystem.Domain.Models;
 
 namespace RentalSystem.Repositories.Implementations;
 
@@ -45,10 +46,29 @@ public class KorisnikRepository : IKorisnikRepository
         return korisniciDTO;
     }
 
-    public async Task<Korisnik?> PrikaziKorisnikaAsync(string jmbg)
+    public async Task<KorisnikDTO?> PrikaziKorisnikaAsync(string jmbg)
     {
-        return await _context.Korisnici.FirstOrDefaultAsync(k => k.JMBG == jmbg);
+        var korisnikDto = await _context.Korisnici
+            .Where(k => k.JMBG == jmbg)
+            .Select(k => new KorisnikDTO
+            {
+                ImePrezime = k.ImePrezime,
+                JMBG = k.JMBG,
+                BrVozacke = k.BrVozacke,
+                Vozila = k.Vozila!.Select(v => new VoziloMinimumDTO
+                {
+                    Model = v.Model,
+                    Marka = v.Marka,
+                    RegistarskiBroj = v.RegistarskiBroj,
+                    CenaVozila = v.CenaVozila
+                }).ToList()
+            })
+            .FirstOrDefaultAsync();
+
+        return korisnikDto;
     }
+
+
 
     public async Task ObrisiAsync(string jmbg)
     {

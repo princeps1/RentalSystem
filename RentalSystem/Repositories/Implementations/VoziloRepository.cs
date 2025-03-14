@@ -43,7 +43,9 @@ public class VoziloRepository : IVoziloRepository
 
     public async Task<Vozilo?> PrikaziVoziloAsync(string regBroj)
     {
-        return await _context.Vozila.FirstOrDefaultAsync(k => k.RegistarskiBroj == regBroj);
+        var vozilo = await _context.Vozila.FirstOrDefaultAsync(k => k.RegistarskiBroj == regBroj);
+        //VoziloDTO voziloDTO = _mapper.Map<VoziloDTO>(vozilo);
+        return vozilo;
     }
 
     public async Task ObrisiAsync(string regBroj)

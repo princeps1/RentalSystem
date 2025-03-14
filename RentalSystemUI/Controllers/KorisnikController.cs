@@ -16,49 +16,51 @@ public class KorisnikController : Controller
         _korisnikService = korisnik;
     }
 
-    // GET /Korisnik (lista korisnika)
+    
     [HttpGet("")]
     public async Task<IActionResult> KorisniciIndex()
     {
         if (!User.Identity!.IsAuthenticated)
+        {
             return RedirectToAction("Login", "Auth");
-
+        }    
         string token = HttpContext.Session.GetString("JWToken")!;
         string bearerToken = $"Bearer {token}";
         var korisnici = await _korisnikService.PrikaziSve(bearerToken);
-        return View(korisnici); // View: KorisniciIndex.cshtml
+        return View(korisnici); 
     }
 
-    // GET /Korisnik/PrikaziKorisnika/{jmbg}
+
+
+
+
     [HttpGet("PrikaziKorisnika/{jmbg}")]
     public async Task<IActionResult> PrikaziKorisnika(string jmbg)
     {
         if (!User.Identity!.IsAuthenticated)
+        {
             return RedirectToAction("Login", "Auth");
-
+        }
         string token = HttpContext.Session.GetString("JWToken")!;
         string bearerToken = $"Bearer {token}";
         var korisnik = await _korisnikService.PrikaziKorisnika(jmbg, bearerToken);
 
         if (korisnik == null)
+        {
             return NotFound();
-
-        // View: PrikaziKorisnika.cshtml
+        }
         return View(korisnik);
     }
 
+    
 
 
 
-
-    // GET /Korisnik/Dodaj
     [HttpGet("Dodaj")]
     public IActionResult Dodaj()
     {
         return View();
     }
-
-    // POST /Korisnik/Dodaj
     [HttpPost("Dodaj")]
     public async Task<IActionResult> Dodaj(string imePrezime, string jmbg, string brVozacke)
     {
@@ -67,14 +69,14 @@ public class KorisnikController : Controller
             return RedirectToAction("Login", "Auth");
         }
 
-        // Dohvati token iz sesije
+        
         string token = HttpContext.Session.GetString("JWToken")!;
         if (string.IsNullOrEmpty(token))
         {
             return RedirectToAction("Login", "Auth");
         }
 
-        // Dodaj prefiks "Bearer"
+       
         string bearerToken = $"Bearer {token}";
 
         try
@@ -91,7 +93,8 @@ public class KorisnikController : Controller
 
 
 
-    // GET /Korisnik/AzurirajVozacku/{jmbg}
+
+
     [HttpGet("AzurirajVozacku/{jmbg}")]
     public async Task<IActionResult> AzurirajVozacku(string jmbg)
     {
@@ -101,19 +104,14 @@ public class KorisnikController : Controller
         string token = HttpContext.Session.GetString("JWToken")!;
         string bearerToken = $"Bearer {token}";
 
-        // Preuzmi trenutne podatke korisnika (DTO)
         var korisnik = await _korisnikService.PrikaziKorisnika(jmbg, bearerToken);
         if (korisnik == null)
             return NotFound();
 
-        // Prosleđujemo DTO direktno view-u
-        return View(korisnik);  // View: /Views/Korisnik/AzurirajVozacku.cshtml
+        return View(korisnik);
     }
-
-
-
     [HttpPost("AzurirajVozacku/{jmbg}")]
-    public async Task<IActionResult> AzurirajVozacku(string jmbg, RentalSystemUI.DTOs.Korisnik.KorisnikDTO model)
+    public async Task<IActionResult> AzurirajVozacku(string jmbg, KorisnikDTO model)
     {
         if (!User.Identity!.IsAuthenticated)
             return RedirectToAction("Login", "Auth");
@@ -123,10 +121,8 @@ public class KorisnikController : Controller
 
         try
         {
-            // Pozovi API za ažuriranje vozačke, prosleđujući novi broj vozačke kao query parametar
             var responseMessage = await _korisnikService.AzurirajVozacku(jmbg, model.BrVozacke, bearerToken);
 
-            // Nakon uspešnog ažuriranja, preusmeri na detalje korisnika
             return RedirectToAction("PrikaziKorisnika", new { jmbg = jmbg });
         }
         catch (Exception ex)
@@ -135,6 +131,10 @@ public class KorisnikController : Controller
             return View(model);
         }
     }
+
+
+
+
 
     [HttpPost("ObrisiKorisnika/{jmbg}")]
     public async Task<IActionResult> ObrisiKorisnika(string jmbg)

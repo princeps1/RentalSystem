@@ -34,7 +34,6 @@ public class VoziloRepository : IVoziloRepository
     public async Task<List<VoziloDTO>> PrikaziSveAsync()
     {
         var vozila = await _context.Vozila
-            .Include(v => v.Korisnik) 
             .ToListAsync();
 
         List<VoziloDTO> vozilaDTO = _mapper.Map<List<VoziloDTO>>(vozila);

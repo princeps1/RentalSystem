@@ -1,6 +1,6 @@
 ﻿namespace RentalSystem.Domain.DTOs.Vozilo;
 
-public abstract class VoziloDTO
+public class VoziloDTO
 {
     public required string Marka { get; set; }
     public required string Model { get; set; }

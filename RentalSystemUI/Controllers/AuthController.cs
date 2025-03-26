@@ -19,8 +19,8 @@ public class AuthController : Controller
     [HttpGet]
     public IActionResult Login()
     {
-        if (User.Identity!.IsAuthenticated)
-            return RedirectToAction("Index", "Home");
+        //if (User.Identity!.IsAuthenticated)
+        //    return RedirectToAction("Index", "Home");
         LoginRequestDTO obj = new();
         return View();
     }

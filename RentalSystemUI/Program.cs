@@ -17,6 +17,11 @@ builder.Services.AddRefitClient<IKorisnik>().ConfigureHttpClient(c =>
     c.BaseAddress = new Uri("https://localhost:7000");
 });
 
+builder.Services.AddRefitClient<IVozilo>().ConfigureHttpClient(c =>
+{
+    c.BaseAddress = new Uri("https://localhost:7000");
+});
+
 builder.Services.AddDistributedMemoryCache();
 
 builder.Services.AddSession(options =>

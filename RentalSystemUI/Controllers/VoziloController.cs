@@ -1,20 +1,31 @@
-﻿using RentalSystemUI.DataAccess;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RentalSystemUI.DataAccess;
+using RentalSystemUI.DTOs.Vozilo;
 
 namespace RentalSystemUI.Controllers;
 
+[Authorize]
+[Route("[controller]")]
 public class VoziloController : Controller
 {
-    private readonly IAuth _authService;
-
-    public VoziloController(IAuth authService)
+    private readonly IVozilo _voziloService; 
+    public VoziloController(IVozilo voziloService)
     {
-        _authService = authService;
+        _voziloService = voziloService;
     }
-    
+
     [HttpGet]
     public async Task<IActionResult> VozilaIndex()
     {
-        return View();    
+        if (!User.Identity!.IsAuthenticated)
+        {
+            return RedirectToAction("Login", "Auth");
+        }
+        string token = HttpContext.Session.GetString("JWToken")!;
+        string bearerToken = $"Bearer {token}";
+        var vozila = await _voziloService.PrikaziSve(bearerToken);
+        return View(vozila);
+
     }
 }
